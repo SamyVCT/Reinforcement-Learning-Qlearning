@@ -31,7 +31,6 @@ void algo1(){
 
 }
 
-<<<<<<< HEAD
 action esp_greedy(int nbActions, float eps, int** Q, int state){
     int action;
     if (rand() < eps){
@@ -41,6 +40,4 @@ action esp_greedy(int nbActions, float eps, int** Q, int state){
     }
     return action;
 }
-=======
 //calcule max
->>>>>>> a10d06d (modif algo1)
