@@ -14,3 +14,13 @@ void algo1(){
 
 
 }
+
+action esp_greedy(int nbActions, float eps, int** Q, int state){
+    int action;
+    if (rand() < eps){
+        action = rand() % nbActions; // Choisir une action au hasard
+    }else{
+        action = argmax(Q[state]); // Choisir l'action qui maximise Q
+    }
+    return action;
+}
