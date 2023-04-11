@@ -3,7 +3,7 @@
 
 int dfs(int row, int col){
     int* current = &visited[row][col];
-    // test
+
     if(*current == goal){
         return 1;
     }else if(*current == unknown){

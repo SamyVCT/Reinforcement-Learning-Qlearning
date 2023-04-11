@@ -4,16 +4,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-char** mazeEnv;
-int** visited;
-int rows;
-int cols;
-int start_row;
-int start_col;
-int state_row;
-int state_col;
-int goal_row;
-int goal_col;
+extern char** mazeEnv;
+extern int** visited;
+extern int rows;
+extern int cols;
+extern int start_row;
+extern int start_col;
+extern int state_row;
+extern int state_col;
+extern int goal_row;
+extern int goal_col;
 
 enum terrain{
     unknown,
@@ -28,9 +28,9 @@ enum action{
      down,
      left,
      right,
-     number_actions 
+     number_actions
 };
- 
+
 typedef enum action action ;
 
 struct envOutput{
@@ -53,7 +53,7 @@ void mazeEnv_render_pos();
 
 void mazeEnv_reset();
 
-envOutput mazeEnv_step(action a); 
+envOutput mazeEnv_step(action a);
 
 action env_action_sample();
 
