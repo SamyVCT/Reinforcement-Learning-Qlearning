@@ -1,20 +1,37 @@
+#include <mazeEnv.h>
+
 void algo1(){
-    int action_size = 4;
-    int state_size = rows*cols; //voir toutes les cases vides (sans +);
+    int action_size = numer_of_actions;
+    int state_size = rows*cols; 
    
-   // Q = np.zeros((state_size, action_size))
-    int **Q = (int **)malloc(rows * sizeof(int*));
-    for(int i = 0; i < rows; i++) Q[i] = (int *)malloc(cols * sizeof(int));
+    //on met les états sur les lignes et les actions possibles sur les colonnes
+    int **Q = (int **)malloc(state_size * sizeof(int*));
+    for(int i = 0; i < state_size; i++) Q[i] = (int *)malloc(action_size * sizeof(int));
     
-    //int *Q = (int *)malloc(state_size * action_size * sizeof(int));
+    //Initialisation de Q
+    for(int i = 0; i < state_size; i++){
+        for(int j = 0; j < action_size; j++){
+            Q[i][j] = 0;
+
+        }
+    }
+
+    // autre def de Q ? int *Q = (int *)malloc(state_size * action_size * sizeof(int));
    
     double alpha = 0.2;// taux d'apprentissage entre 0 et 1
 
-    Q[state*action_size + action] = Q[state*action_size + action] + alpha * (reward + gamma * np.max(Q[new_state, :]) — Q[state*action_size + action])
+    int episode = 10;
+    for (int i; i<= episode;i++){
+        //choose start
+        action a = 
+    }
+
+    Q[state][action] = Q[state][action] + alpha * (reward + gamma * argmax(Q[New_state]) — Q[state][action])
 
 
 }
 
+<<<<<<< HEAD
 action esp_greedy(int nbActions, float eps, int** Q, int state){
     int action;
     if (rand() < eps){
@@ -24,3 +41,6 @@ action esp_greedy(int nbActions, float eps, int** Q, int state){
     }
     return action;
 }
+=======
+//calcule max
+>>>>>>> a10d06d (modif algo1)
