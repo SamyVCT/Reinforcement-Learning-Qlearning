@@ -1,3 +1,18 @@
+MAIN = src/main.c
+FUNCTIONS = scr/functions.c
+MAZEENV = src/mazeEnv.c
+QLEARNING = src/algo1.c
+
+INC=include/
+
+CC=gcc 
+CFLAGS=-Wall -Werror -I$(INC)
+
+
+
+
+
+
 src/dfs         : src/dfs.o src/functions.o src/mazeEnv.o
 	gcc -I include/ -g -o src/dfs src/dfs.o src/functions.o src/mazeEnv.o -Wall
 
