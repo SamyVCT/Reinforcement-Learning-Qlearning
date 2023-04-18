@@ -1,6 +1,6 @@
 #include <mazeEnv.h>
 
-void algo1(){
+void algo1(int nbEpisodes){
     int action_size = numer_of_actions;
     int state_size = rows*cols; 
    
@@ -20,8 +20,7 @@ void algo1(){
    
     double alpha = 0.2;// taux d'apprentissage entre 0 et 1
 
-    int episode = 10;
-    for (int i; i<= episode;i++){
+    for (int i; i<= nbEpisodes;i++){
         //choose start
         action a = 
     }
