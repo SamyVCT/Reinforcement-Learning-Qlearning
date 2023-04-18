@@ -13,7 +13,7 @@ int main(int argc, char *argv[]){
     int nbEpisodes = 1000;
     int eps = 0.2; // strict positif
     int alpha = 0.2; //entre 0 et 1
-    int gamma = 0.9;
+    int gamma = 0.9; // facteur d'apprentissage entre 0 et 1
 
 
 
@@ -61,6 +61,7 @@ int main(int argc, char *argv[]){
 
     // On affiche le temps d'exécution
     double time_spent = (double)(end - start) / CLOCKS_PER_SEC;
+    printf("Temps écoulé pour l'entrainement : %f\n", time_spent);
 
    printf("%d, %d \n", rows, cols);
    printf("number of actions :  %d \n", number_actions); 
