@@ -1,26 +1,6 @@
 #include <mazeEnv.h>
 
-void algo1(int nbEpisodes){
-    int action_size = numer_of_actions;
-    int state_size = rows*cols; 
-   
-    //on met les états sur les lignes et les actions possibles sur les colonnes
-    int **Q = (int **)malloc(state_size * sizeof(int*));
-    for(int i = 0; i < state_size; i++) Q[i] = (int *)malloc(action_size * sizeof(int));
-    
-    //Initialisation de Q
-    for(int i = 0; i < state_size; i++){
-        for(int j = 0; j < action_size; j++){
-            Q[i][j] = 0;
-
-        }
-    }
-
-    // autre def de Q ? int *Q = (int *)malloc(state_size * action_size * sizeof(int));
-   
-    double alpha = 0.1;// taux d'apprentissage entre 0 et 1
-    double epsilon  = 0.1; // strict. positif
-    
+void algo1(int nbEpisodes,double epsilon,double alpha, double gamma, int **Q, int state_size, int action_size){    
     // Fonctionnement de l'algo
     //initialisation :
     // Q(s,a) dans R, si s terminal Q(s,a) = 0
@@ -34,9 +14,6 @@ void algo1(int nbEpisodes){
     // s <- s'
     // unitl s is terminal
     
-    //int* current = &visited[row][col];
-
-    action a;
     for (int i; i<= nbEpisodes;i++){
         //choose start
         mazeEnv_reset(); 
@@ -67,6 +44,3 @@ action eps_greedy(int nbActions, float eps, int** Q, int state){
     }
     return action;
 }
-//calcule max
-
-

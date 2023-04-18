@@ -11,8 +11,8 @@ int main(int argc, char *argv[]){
 
     // Définition des paramètres de l'algorithme
     int nbEpisodes = 1000;
-    int eps = 0.2;
-    int alpha = 0.2;
+    int eps = 0.2; // strict positif
+    int alpha = 0.2; //entre 0 et 1
     int gamma = 0.9;
 
 
