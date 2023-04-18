@@ -18,19 +18,47 @@ void algo1(int nbEpisodes){
 
     // autre def de Q ? int *Q = (int *)malloc(state_size * action_size * sizeof(int));
    
-    double alpha = 0.2;// taux d'apprentissage entre 0 et 1
+    double alpha = 0.1;// taux d'apprentissage entre 0 et 1
+    double epsilon  = 0.1; // strict. positif
+    
+    // Fonctionnement de l'algo
+    //initialisation :
+    // Q(s,a) dans R, si s terminal Q(s,a) = 0
+    // entrainement :
+    // foreach episode : initialise s, 
+    // repeat foreach step
+    // a <- chose action (s,Q)
+    // take action
+    // observe s', r
+    // formule ...
+    // s <- s'
+    // unitl s is terminal
+    
+    //int* current = &visited[row][col];
 
+    action a;
     for (int i; i<= nbEpisodes;i++){
         //choose start
-        action a = 
+        mazeEnv_reset(); 
+        int s_terminal = 0;
+        while (s_terminal==0) {
+            int s = state_row * cols + state_col //autre méthode : state_cols*rows + state_row
+            action a = eps_greedy(nbActions, eps, Q, s);
+            envOutput stepOut = mazeEnv_step(a);
+            int s_next = stepOut.state_row * cols + stepOut.state_col;
+
+            Q[s][a] = Q[s][a] + alpha * (stepOut.reward + gamma * argmax(Q[s_next]) — Q[s][a])
+            state_col = stepOut.state_col;
+            state_row = stepOut.state_row;
+            s_terminal = envOutput.done;
+        }   
     }
 
-    Q[state][action] = Q[state][action] + alpha * (reward + gamma * argmax(Q[New_state]) — Q[state][action])
 
 
 }
 
-action esp_greedy(int nbActions, float eps, int** Q, int state){
+action eps_greedy(int nbActions, float eps, int** Q, int state){
     int action;
     if (rand() < eps){
         action = rand() % nbActions; // Choisir une action au hasard
@@ -40,3 +68,5 @@ action esp_greedy(int nbActions, float eps, int** Q, int state){
     return action;
 }
 //calcule max
+
+
