@@ -112,6 +112,11 @@ envOutput mazeEnv_step(action a){
     int done = 0;
     envOutput stepOut;
 
+    // enregistrer la position actuelle
+
+    int old_row = state_row;
+    int old_col = state_col;
+
     // si on est sur un bord de la grille
     if (a==up){
        state_row = max(0,state_row -1);
@@ -125,8 +130,12 @@ envOutput mazeEnv_step(action a){
 
     // si on est sur un mur
     if (mazeEnv[state_row][state_col] == '+'){
-       reward = -100;
-       done   = 1;
+        reward = -100;
+        done   = 1;
+
+        // Remettre la position à l'ancienne position -> faudra vérifier que Q n'utilise pas la nouvelle position pour changer la reward.
+        state_row = old_row;
+        state_col = old_col;
     }
     
     if((state_row == goal_row) && (state_col == goal_col)){
