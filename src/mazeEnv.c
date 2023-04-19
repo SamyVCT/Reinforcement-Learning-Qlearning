@@ -112,6 +112,7 @@ envOutput mazeEnv_step(action a){
     int done = 0;
     envOutput stepOut;
 
+    // si on est sur un bord de la grille
     if (a==up){
        state_row = max(0,state_row -1);
     }else if (a==down){
@@ -120,6 +121,12 @@ envOutput mazeEnv_step(action a){
        state_col = min(cols,state_col +1);
     }else if (a==left){
        state_col = max(0,state_col -1);
+    }
+
+    // si on est sur un mur
+    if (mazeEnv[state_row][state_col] == '+'){
+       reward = -100;
+       done   = 1;
     }
     
     if((state_row == goal_row) && (state_col == goal_col)){
