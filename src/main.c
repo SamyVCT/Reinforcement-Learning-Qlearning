@@ -15,7 +15,7 @@ int main(int argc, char *argv[]){
     int alpha = 0.2; //entre 0 et 1
     int gamma = 0.9; // facteur d'apprentissage entre 0 et 1
 
-
+    printf("test 0\n");
 
     // On met les états sur les lignes et les actions possibles sur les colonnes
     float **Q = (float **)malloc(state_size * sizeof(float*));
@@ -24,9 +24,11 @@ int main(int argc, char *argv[]){
     // Initialisation de Q à 0 partout
     for(int i = 0; i < state_size; i++){
         for(int j = 0; j < action_size; j++){
-            Q[i][j] = 0;
+            Q[i][j] = 0.0;
         }
     }
+
+    printf("test 1\n");
     
     // On vérifie que l'allocation mémoire a bien fonctionné et si on a le bon nombre d'arguments
     if (Q == NULL){
@@ -47,12 +49,12 @@ int main(int argc, char *argv[]){
         case 1:
             algo1(nbEpisodes, eps, alpha, gamma, Q, state_size, action_size);
             break;
-        case 2:
-            algo2(nbEpisodes, eps, alpha, gamma, Q, state_size, action_size);
-            break;
-        case 3:
-            algo3(nbEpisodes, eps, alpha, gamma, Q, state_size, action_size);
-            break;
+        // case 2:
+        //     algo2(nbEpisodes, eps, alpha, gamma, Q, state_size, action_size);
+        //     break;
+        // case 3:
+        //     algo3(nbEpisodes, eps, alpha, gamma, Q, state_size, action_size);
+        //     break;
         default:
             printf("Algorithme inconnu\n");
             exit(1);
@@ -65,9 +67,17 @@ int main(int argc, char *argv[]){
 
    printf("%d, %d \n", rows, cols);
    printf("number of actions :  %d \n", number_actions); 
-   mazeEnv_render();
-   dfs(start_row,start_col);
+   
+   // dfs(start_row,start_col);
    add_crumbs();
    mazeEnv_render();
+
+    printf("test 2\n");
+    // free memory
+
+    for(int i = 0; i < state_size; i++) free(Q[i]);
+    free(Q);
+
+
    return 0;
 }

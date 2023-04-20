@@ -33,7 +33,6 @@ void mazeEnv_make(char* file_name){
      if (file == NULL){
         printf("Pointeur nul");
      }
-
      if (file) {
          /* lire la premiere ligne avant EOF */
          while( (c=getc(file)) != EOF) {
