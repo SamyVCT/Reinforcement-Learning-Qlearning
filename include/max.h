@@ -1,2 +1,7 @@
+#include <stdio.h>
+#include <stdlib.h>
 
-float max(float* Q, int nbActions);
+
+int maxInd(float* Q, int nbActions);
+
+float maxVal(float* Q, int nbActions);

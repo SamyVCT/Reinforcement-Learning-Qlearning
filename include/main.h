@@ -1,4 +1,4 @@
-#include "mazeEnv.h"
+#include <mazeEnv.h>
 
 #include <time.h>
 

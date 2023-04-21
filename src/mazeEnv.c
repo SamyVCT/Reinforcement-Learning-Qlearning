@@ -1,5 +1,5 @@
-#include "mazeEnv.h"
-#include "functions.h"
+#include <mazeEnv.h>
+#include <functions.h>
 
 char** mazeEnv;
 int** visited;
@@ -105,6 +105,14 @@ void mazeEnv_reset(){
      state_col = start_col;
 }
 
+int mazeEnv_is_wall(int row, int col){
+     if (mazeEnv[row][col] == '+'){
+         return 1;
+     } else {
+         return 0;
+     }
+}
+
 //faire une action &observer récompense et où on se trouve
 envOutput mazeEnv_step(action a){
     int reward = 0;
@@ -120,9 +128,9 @@ envOutput mazeEnv_step(action a){
     if (a==up){
        state_row = max(0,state_row -1);
     }else if (a==down){
-       state_row = min(rows,state_row +1);
+       state_row = min(rows-1,state_row +1);
     }else if (a==right){
-       state_col = min(cols,state_col +1);
+       state_col = min(cols-1,state_col +1);
     }else if (a==left){
        state_col = max(0,state_col -1);
     }
@@ -130,7 +138,6 @@ envOutput mazeEnv_step(action a){
     // si on est sur un mur
     if (mazeEnv[state_row][state_col] == '+'){
         reward = -100;
-        done   = 1;
 
         // Remettre la position à l'ancienne position -> faudra vérifier que Q n'utilise pas la nouvelle position pour changer la reward.
         state_row = old_row;

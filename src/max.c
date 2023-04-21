@@ -1,11 +1,27 @@
+#include <max.h>
 
-
-float max(float* Q, int nbActions) {
-    float max = Q[0];
+int maxInd(float* Q, int nbActions) {
+    int maxi = 0;
     for (int i = 1; i < nbActions; i++) {
-        if (Q[i] > max) {
-            max = Q[i];
+        if (Q[i] > Q[maxi]) {
+            maxi = i;
+        }
+        if(Q[i] == Q[maxi]){
+            int random = rand() % 2;
+            if(random == 1){
+                maxi = i;
+            }
         }
     }
-    return max;
+    return maxi;
+}
+
+float maxVal(float* Q, int nbActions) {
+    float maxi = -1000000000;
+    for (int i = 0; i < nbActions; i++) {
+        if (Q[i] > maxi) {
+            maxi = Q[i];
+        }
+    }
+    return maxi;
 }

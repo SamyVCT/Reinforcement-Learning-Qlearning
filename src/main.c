@@ -10,17 +10,17 @@ int main(int argc, char *argv[]){
     int state_size = rows*cols;
 
     // Définition des paramètres de l'algorithme
-    int nbEpisodes = 1000;
-    int eps = 0.2; // strict positif
-    int alpha = 0.2; //entre 0 et 1
-    int gamma = 0.9; // facteur d'apprentissage entre 0 et 1
+    int nbEpisodes = 10000;
+    double eps = 0.2; // strict positif
+    double alpha = 0.9; //entre 0 et 1
+    double gamma = 0.9; // facteur d'apprentissage entre 0 et 1
 
     printf("test 0\n");
 
     // On met les états sur les lignes et les actions possibles sur les colonnes
     float **Q = (float **)malloc(state_size * sizeof(float*));
     for(int i = 0; i < state_size; i++) Q[i] = (float *)malloc(action_size * sizeof(float));
-    
+
     // Initialisation de Q à 0 partout
     for(int i = 0; i < state_size; i++){
         for(int j = 0; j < action_size; j++){
@@ -29,7 +29,7 @@ int main(int argc, char *argv[]){
     }
 
     printf("test 1\n");
-    
+
     // On vérifie que l'allocation mémoire a bien fonctionné et si on a le bon nombre d'arguments
     if (Q == NULL){
         printf("Erreur d'allocation mémoire");
@@ -65,9 +65,19 @@ int main(int argc, char *argv[]){
     double time_spent = (double)(end - start) / CLOCKS_PER_SEC;
     printf("Temps écoulé pour l'entrainement : %f\n", time_spent);
 
+    // affichage de la matrice Q
+
+    for(int i = 0; i < state_size; i++){
+        printf("Etat %d : ", i);
+        for(int j = 0; j < action_size; j++){
+            printf("%f ", Q[i][j]);
+        }
+        printf("\n");
+    }
+
    printf("%d, %d \n", rows, cols);
-   printf("number of actions :  %d \n", number_actions); 
-   
+   printf("number of actions :  %d \n", number_actions);
+
    // dfs(start_row,start_col);
    add_crumbs();
    mazeEnv_render();

@@ -53,6 +53,8 @@ void mazeEnv_render_pos();
 
 void mazeEnv_reset();
 
+int mazeEnv_is_wall(int row, int col);
+
 envOutput mazeEnv_step(action a);
 
 action env_action_sample();
