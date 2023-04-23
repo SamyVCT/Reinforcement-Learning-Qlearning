@@ -18,8 +18,6 @@ int algo1(int nbEpisodes,double epsilon,double alpha, double gamma, float **Q, i
     srand(time(NULL));
     
     for (int i = 0; i<= nbEpisodes;i++){
-        //choose start
-        printf("Episode %d\n", i);
         //mazeEnv_reset(); 
 
         // On choisit une position de départ au hasard
@@ -49,7 +47,7 @@ int algo1(int nbEpisodes,double epsilon,double alpha, double gamma, float **Q, i
         }   
     }
 
-    return 0;
+    return 1;
 
 }
 

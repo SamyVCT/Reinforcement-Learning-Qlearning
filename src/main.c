@@ -3,19 +3,11 @@
 
 
 int main(int argc, char *argv[]){
-    mazeEnv_make("../data/maze.txt");
+    mazeEnv_make("data/maze.txt");
     init_visited();
 
     int action_size = number_actions;
     int state_size = rows*cols;
-
-    // Définition des paramètres de l'algorithme
-    int nbEpisodes = 10000;
-    double eps = 0.2; // strict positif
-    double alpha = 0.9; //entre 0 et 1
-    double gamma = 0.9; // facteur d'apprentissage entre 0 et 1
-
-    printf("test 0\n");
 
     // On met les états sur les lignes et les actions possibles sur les colonnes
     float **Q = (float **)malloc(state_size * sizeof(float*));
@@ -28,26 +20,34 @@ int main(int argc, char *argv[]){
         }
     }
 
-    printf("test 1\n");
-
     // On vérifie que l'allocation mémoire a bien fonctionné et si on a le bon nombre d'arguments
     if (Q == NULL){
         printf("Erreur d'allocation mémoire");
         exit(1);
     }
 
-    if(argc < 2){
-        printf("Utilisation: %s <numéro algo>\n", argv[0]);
+    if(argc < 6){
+        printf("Utilisation: %s <numéro algo> <nombre d'épisodes> <epsilon> <alpha> <gamma>\n", argv[0]);
         exit(1);
     }
+
+    // Définition des paramètres de l'algorithme
+    int nbEpisodes = atoi(argv[2]); 
+    double eps = atof(argv[3]); // strict positif et inférieur à 1
+    double alpha = atof(argv[4]); //entre 0 et 1
+    double gamma = atof(argv[5]); // facteur d'apprentissage entre 0 et 1
+    int algo = atoi(argv[1]);   // numéro de l'algorithme choisi
 
     // On lance l'algorithme choisi et compte le temps d'exécution
 
     clock_t start = clock();
-    int algo = atoi(argv[1]);
+    
     switch(algo){
         case 1:
-            algo1(nbEpisodes, eps, alpha, gamma, Q, state_size, action_size);
+            if(!algo1(nbEpisodes, eps, alpha, gamma, Q, state_size, action_size)) {
+                printf("Erreur dans l'algorithme 1\n");
+                exit(1);
+            }
             break;
         // case 2:
         //     algo2(nbEpisodes, eps, alpha, gamma, Q, state_size, action_size);
@@ -75,19 +75,14 @@ int main(int argc, char *argv[]){
         printf("\n");
     }
 
-   printf("%d, %d \n", rows, cols);
-   printf("number of actions :  %d \n", number_actions);
-
    // dfs(start_row,start_col);
-   add_crumbs();
-   mazeEnv_render();
+    add_crumbs();
+    mazeEnv_render();
 
-    printf("test 2\n");
     // free memory
 
     for(int i = 0; i < state_size; i++) free(Q[i]);
     free(Q);
-
 
    return 0;
 }
