@@ -34,3 +34,16 @@ float maxVal(float* Q, int nbActions) {
     }
     return maxi;
 }
+
+
+action eps_greedy(int nbActions, float eps, float** Q, int state){
+    int action;
+    double random = (double)rand() / (double)RAND_MAX;
+    if (random < eps){
+        int act = rand() % nbActions;
+        action = act; // Choisir une action au hasard
+    }else{
+        action = maxInd(Q[state], nbActions); // Choisir l'action qui maximise Q
+    }
+    return action;
+}
