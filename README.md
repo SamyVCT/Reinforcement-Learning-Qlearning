@@ -1,12 +1,29 @@
 # Reinforcement Learning Project : Maze 
 
-Here's our repository dedicated to Reinforcement Learning. A small project will be conducted and used as a course project at ENSTA Paris.
+Voici notre dépôt github dédié à l'apprentissage par renforcement.
+On implémente différents algorithmes pour trouver la sortie d'un labyrinthe.
 
-We aim here to implement different Reinforcement Learning algorithms in order to exit a maze first
+Vous trouverez plusieurs dossiers :
 
-You'll find here several folders :
+/Include pour les headers
 
-/Include is for the headers
+/src contient les algorithmes d'apprentissage par renforcement et de définition du labyrinthe.
 
-/src is for the algorithms and the environnements by themselves.
+dfs.c est un algorithme de parcours en profondeur (non utilisé pour ce projet).
+
+mazeEnv.c permet de définir le labyrinthe et d'effectuer des actions dedans.
+
+functions.c contient des plusieurs fonctions utiles.
+
+algo1.c est un algorithme de Q-learning et epsilon greedy.
+
+max.c permet de renvoyer la valeur maximale et son indice dans un tableau.
+
+main.c permet d'initialiser Q, les valeurs utiles, puis de lancer l'algorithme de renforcement choisi.
+
+Pour faire fonctionner l'algorithme : 
+Il faut lancer make qui crée un fichier "main" à la racine du dépôt (pas dans /src !)
+puis ./main <numéro algo> <nombre d'épisodes> <epsilon> <alpha> <gamma>
+en spécifiant <numéro algo> = 1 pour Q-learning
+puis les paramètres à utiliser.
 
