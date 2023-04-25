@@ -4,4 +4,6 @@
 
 #include <algo1.h>
 
+#include <sarsa.h>
+
 int main(int argc, char *argv[]);

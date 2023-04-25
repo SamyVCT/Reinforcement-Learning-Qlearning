@@ -49,9 +49,12 @@ int main(int argc, char *argv[]){
                 exit(1);
             }
             break;
-        // case 2:
-        //     algo2(nbEpisodes, eps, alpha, gamma, Q, state_size, action_size);
-        //     break;
+        case 2:
+                if(!sarsa(nbEpisodes, eps, alpha, gamma, Q, state_size, action_size)) {
+                printf("Erreur dans l'algorithme 2\n");
+                exit(1);
+            }             
+            break;
         // case 3:
         //     algo3(nbEpisodes, eps, alpha, gamma, Q, state_size, action_size);
         //     break;
