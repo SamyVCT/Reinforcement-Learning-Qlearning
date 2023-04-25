@@ -6,7 +6,7 @@ CC=gcc
 CFLAGS=-Wall -Werror -I include/ -g
 
 # Créé tous les .o puis le main (en 2 temps pour pouvoir trouver les dépendances)
-all: functions.o mazeEnv.o max.o algo1.o main.o
+all: functions.o mazeEnv.o algo1.o main.o
 	make main
 
 # Cherche tous les fichiers .o dans le dossier src
@@ -19,8 +19,8 @@ src/main.o : main.c
 src/algo1.o : algo1.c 
 	$(CC) -o $@ -c $< $(CFLAGS)
 
-src/max.o : max.c 
-	$(CC) -o $@ -c $< $(CFLAGS)
+# src/max.o : max.c 
+# 	$(CC) -o $@ -c $< $(CFLAGS)
 
 src/functions.o : functions.c
 	$(CC) -o $@ -c $< $(CFLAGS)

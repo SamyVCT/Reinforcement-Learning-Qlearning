@@ -1,6 +1,7 @@
 #include <time.h>
 #include <mazeEnv.h>
-#include <max.h>
+//#include <max.h>
+#include <functions.h>
 
 
 
