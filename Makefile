@@ -38,5 +38,6 @@ src/mazeEnv.o   : mazeEnv.c
 
 clean:
 	rm -f src/*.o
+	rm main
 
 
