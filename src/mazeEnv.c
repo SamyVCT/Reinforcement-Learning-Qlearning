@@ -139,7 +139,7 @@ envOutput mazeEnv_step(action a){
     if (mazeEnv[state_row][state_col] == '+'){
         reward = -100;
 
-        // Remettre la position à l'ancienne position -> faudra vérifier que Q n'utilise pas la nouvelle position pour changer la reward.
+        // Remettre la position à l'ancienne position
         state_row = old_row;
         state_col = old_col;
     }

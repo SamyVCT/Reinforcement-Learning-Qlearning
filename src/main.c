@@ -79,6 +79,15 @@ int main(int argc, char *argv[]){
     add_crumbs();
     mazeEnv_render();
 
+    // calcul et affichage du parcours.
+
+    action* path = malloc(500*sizeof(int));
+    int path_size;
+
+    resolveMaze(Q, action_size, path, &path_size);
+
+    showResult(path, path_size);
+
     // free memory
 
     for(int i = 0; i < state_size; i++) free(Q[i]);
