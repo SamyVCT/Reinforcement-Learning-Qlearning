@@ -103,7 +103,8 @@ int main(int argc, char *argv[]){
     showResult(path, path_size);
 
     // free memory
-
+    
+    free(path);
     for(int i = 0; i < state_size; i++) free(Q[i]);
     free(Q);
 
