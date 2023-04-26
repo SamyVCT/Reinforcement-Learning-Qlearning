@@ -14,6 +14,7 @@ extern int state_row;
 extern int state_col;
 extern int goal_row;
 extern int goal_col;
+extern int debug;
 
 enum terrain{
     unknown,

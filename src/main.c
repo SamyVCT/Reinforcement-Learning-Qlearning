@@ -31,6 +31,10 @@ int main(int argc, char *argv[]){
         exit(1);
     }
 
+    if(argc > 6) {
+        printf("################ MODE DEBUG ################\n");
+        debug = 1;
+    } else debug = 0;
     // Définition des paramètres de l'algorithme
     int nbEpisodes = atoi(argv[2]); 
     double eps = atof(argv[3]); // strict positif et inférieur à 1
@@ -38,13 +42,18 @@ int main(int argc, char *argv[]){
     double gamma = atof(argv[5]); // facteur d'apprentissage entre 0 et 1
     int algo = atoi(argv[1]);   // numéro de l'algorithme choisi
 
-    // On lance l'algorithme choisi et compte le temps d'exécution
 
-    clock_t start = clock();
-    
+    clock_t start;
+    if(debug) {
+        // On compte le temps d'exécution
+        start = clock();
+    }
+
+    // On lance l'algorithme choisit
+
     switch(algo){
         case 1:
-            if(!algo1(nbEpisodes, eps, alpha, gamma, Q, state_size, action_size)) {
+            if(!qlearning(nbEpisodes, eps, alpha, gamma, Q, state_size, action_size)) {
                 printf("Erreur dans l'algorithme 1\n");
                 exit(1);
             }
@@ -62,23 +71,25 @@ int main(int argc, char *argv[]){
             printf("Algorithme inconnu\n");
             exit(1);
     }
-    clock_t end = clock();
 
-    // On affiche le temps d'exécution
-    double time_spent = (double)(end - start) / CLOCKS_PER_SEC;
-    printf("Temps écoulé pour l'entrainement : %f\n", time_spent);
+    if (debug) {
+        clock_t end = clock();
+        
+        // On affiche le temps d'exécution
+        double time_spent = (double)(end - start) / CLOCKS_PER_SEC;
+        printf("Temps écoulé pour l'entrainement : %f\n", time_spent);
 
-    // affichage de la matrice Q
+        // affichage de la matrice Q
 
-    for(int i = 0; i < state_size; i++){
-        printf("Etat %d : ", i);
-        for(int j = 0; j < action_size; j++){
-            printf("%f ", Q[i][j]);
+        for(int i = 0; i < state_size; i++){
+            printf("Etat %d : ", i);
+            for(int j = 0; j < action_size; j++){
+                printf("%f ", Q[i][j]);
+            }
+            printf("\n");
         }
-        printf("\n");
     }
 
-   // dfs(start_row,start_col);
     add_crumbs();
     mazeEnv_render();
 

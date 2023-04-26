@@ -11,6 +11,7 @@ int state_row;
 int state_col;
 int goal_row;
 int goal_col;
+int debug;
 
 
 void alloc_mazeEnv(){

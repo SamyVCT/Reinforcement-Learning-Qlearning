@@ -1,7 +1,6 @@
-#include <mazeEnv.h>
-#include <algo1.h>
+#include <qlearning.h>
 
-int algo1(int nbEpisodes,double epsilon,double alpha, double gamma, float **Q, int state_size, int action_size){    
+int qlearning(int nbEpisodes,double epsilon,double alpha, double gamma, float **Q, int state_size, int action_size){    
     
     // Fonctionnement de l'algo
     //initialisation :
@@ -32,11 +31,18 @@ int algo1(int nbEpisodes,double epsilon,double alpha, double gamma, float **Q, i
             state_row = rand() % rows;
         }
 
+        if(debug) {
+            printf("Episode %d\n", i);
+            printf("Position de départ : %d %d\n", state_row, state_col);
+        }
+
+
         int s_terminal = 0;
         int j = 0;
         while (s_terminal==0) {
             int s = state_row * cols + state_col; //autre méthode : state_cols*rows + state_row
             action a = eps_greedy(action_size, epsilon, Q, s);
+            if(debug) printf("Action choisie : %d\n", a);
             envOutput stepOut = mazeEnv_step(a);
             int s_next = stepOut.new_row * cols + stepOut.new_col;
             Q[s][a] = Q[s][a] + alpha * (stepOut.reward + gamma * maxVal(Q[s_next], action_size) - Q[s][a]);

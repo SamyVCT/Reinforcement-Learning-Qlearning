@@ -7,7 +7,7 @@ int resolveMaze(float** Q, int action_size, action* path, int* path_size){
     int state = start_row*cols + start_col;
     int act = 0;
     int i = 0;
-    while(state != goal_row*cols + goal_col && i < 499){
+    while(state != goal_row*cols + goal_col && i < cols*rows){
         act = maxInd(Q[state], action_size);
         path[i] = act;
         switch(act){ // On part du principe que l'on ne peut pas sortir du labyrinthe si la matrice Q est correcte
