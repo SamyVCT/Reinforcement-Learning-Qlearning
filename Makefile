@@ -7,7 +7,7 @@ CFLAGS=-Wall -Werror -I include/ -g
 
 all: main
 
-main: functions.o mazeEnv.o qlearning.o sarsa.o main.o resolveMaze.o
+main: functions.o mazeEnv.o qlearning.o sarsa.o main.o resolveMaze.o morpion.o 
 	$(CC) -o $@ $^ $(CFLAGS)
 
 src/main.o : main.c 

@@ -42,7 +42,6 @@ int main(int argc, char *argv[]){
             state_size = rows*cols;
             break;
         case 2: // Morpion
-            init_plateau();
             action_size = 9;
             state_size = 19683; // 3^9 états possibles
             break;

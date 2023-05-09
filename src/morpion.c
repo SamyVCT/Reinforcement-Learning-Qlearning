@@ -3,6 +3,7 @@
 char plateau[3][3];
 int joueur_courant;
 int affichage;
+int nb_coups = 0;
 
 int init_plateau(){
     int i,j;
@@ -17,6 +18,11 @@ int init_plateau(){
 }
 
 int jouer_coup(int x, int y){
+    if(nb_coups == 9) {
+        printf("Match nul\n");
+        return 2;
+    }
+
     if(plateau[x][y]=='.'){
         switch(joueur_courant){
             case PLAYER1:
@@ -34,8 +40,6 @@ int jouer_coup(int x, int y){
                 render_plateau();
                 printf("Le joueur %d a gagné\n",joueur_courant+1);
             }
-            
-            init_plateau();
         }
         else {
             if(affichage) render_plateau();
@@ -94,3 +98,35 @@ int render_plateau(){
     return 0;
 }
 
+int board_to_state(int state[9]) {
+    for (int i=0; i<3; i++) {
+        for (int j=0; j<3; j++) {
+            switch (plateau[i][j]) {
+                case 'X':
+                    state[i*3+j] = 1;
+                    break;
+                case 'O':
+                    state[i*3+j] = 2;
+                    break;
+                default:
+                    state[i*3+j] = 0;
+                    break;
+            }
+        }
+    }
+    return 1;
+}
+
+int search_state(float** Q, int state_size, int state[9]) {
+    for (int i=0; i<state_size; i++) {
+        for(int j=0; j<9; j++) {
+            if (Q[i][j] != state[j]) {
+                break;
+            }
+            if (j == 8) {
+                return i;
+            }
+        }
+    }
+    return -1;
+}

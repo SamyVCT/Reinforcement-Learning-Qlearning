@@ -14,3 +14,7 @@ int jouer_coup(int x, int y);
 int a_gagne(int joueur);
 
 int render_plateau();
+
+int board_to_state(int state[9]);
+
+int search_state(float** Q, int state_size, int state[9]);
