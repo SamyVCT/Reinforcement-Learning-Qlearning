@@ -3,11 +3,57 @@
 
 
 int main(int argc, char *argv[]){
-    mazeEnv_make("data/maze.txt");
-    init_visited();
 
-    int action_size = number_actions;
-    int state_size = rows*cols;
+    // Verification des arguments.
+    if(argc < 7){
+        printf("Utilisation: %s <numéro algo> <nombre d'épisodes> <epsilon> <alpha> <gamma> <jeu>\n", argv[0]);
+        exit(1);
+    }
+
+    if(argc > 7) {
+        printf("################ MODE DEBUG ################\n");
+        debug = 1;
+    } else debug = 0;
+
+
+    // Définition des paramètres de l'algorithme
+    int nbEpisodes = atoi(argv[2]); 
+    double eps = atof(argv[3]); // strict positif et inférieur à 1
+    double alpha = atof(argv[4]); //entre 0 et 1
+    double gamma = atof(argv[5]); // facteur d'apprentissage entre 0 et 1
+    int algo = atoi(argv[1]);   // numéro de l'algorithme choisi
+    int jeu = atoi(argv[6]);    // jeu choisi (maze, morpion, trading)
+
+    clock_t start;
+    if(debug) {
+        // On compte le temps d'exécution
+        start = clock();
+    }
+
+    // Définition des paramètres du jeu    
+    int action_size;
+    int state_size;
+
+    switch(jeu) {
+        case 1: // Maze
+            mazeEnv_make("data/maze.txt");
+            init_visited();
+            action_size = number_actions;
+            state_size = rows*cols;
+            break;
+        case 2: // Morpion
+            init_plateau();
+            action_size = 9;
+            state_size = 19683; // 3^9 états possibles
+            break;
+        case 3: // Trading
+            action_size = 3;
+            state_size = 10; // 10 états possibles
+            break;
+        default:
+            printf("Jeu inconnu\n");
+            exit(1);
+    }
 
     // On met les états sur les lignes et les actions possibles sur les colonnes
     float **Q = (float **)malloc(state_size * sizeof(float*));
@@ -26,28 +72,6 @@ int main(int argc, char *argv[]){
         exit(1);
     }
 
-    if(argc < 7){
-        printf("Utilisation: %s <numéro algo> <nombre d'épisodes> <epsilon> <alpha> <gamma> <jeu>\n", argv[0]);
-        exit(1);
-    }
-
-    if(argc > 7) {
-        printf("################ MODE DEBUG ################\n");
-        debug = 1;
-    } else debug = 0;
-    // Définition des paramètres de l'algorithme
-    int nbEpisodes = atoi(argv[2]); 
-    double eps = atof(argv[3]); // strict positif et inférieur à 1
-    double alpha = atof(argv[4]); //entre 0 et 1
-    double gamma = atof(argv[5]); // facteur d'apprentissage entre 0 et 1
-    int algo = atoi(argv[1]);   // numéro de l'algorithme choisi
-    int jeu = atoi(argv[6]);    // jeu choisi (maze, morpion, trading)
-
-    clock_t start;
-    if(debug) {
-        // On compte le temps d'exécution
-        start = clock();
-    }
 
     // On lance l'algorithme choisit
 
@@ -90,21 +114,19 @@ int main(int argc, char *argv[]){
         }
     }
 
-    add_crumbs();
-    mazeEnv_render();
+    if(jeu == 1) {
+        // calcul et affichage du parcours.
 
-    // calcul et affichage du parcours.
-
-    action* path = malloc(500*sizeof(int));
-    int path_size;
-
-    resolveMaze(Q, action_size, path, &path_size);
-
-    showResult(path, path_size);
+        action* path = malloc(500*sizeof(int));
+        int path_size;
+        resolveMaze(Q, action_size, path, &path_size);
+        showResult(path, path_size);
+        free(path);
+    }
+    
 
     // free memory
     
-    free(path);
     for(int i = 0; i < state_size; i++) free(Q[i]);
     free(Q);
 
