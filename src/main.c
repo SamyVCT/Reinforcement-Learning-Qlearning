@@ -26,12 +26,12 @@ int main(int argc, char *argv[]){
         exit(1);
     }
 
-    if(argc < 6){
-        printf("Utilisation: %s <numéro algo> <nombre d'épisodes> <epsilon> <alpha> <gamma>\n", argv[0]);
+    if(argc < 7){
+        printf("Utilisation: %s <numéro algo> <nombre d'épisodes> <epsilon> <alpha> <gamma> <jeu>\n", argv[0]);
         exit(1);
     }
 
-    if(argc > 6) {
+    if(argc > 7) {
         printf("################ MODE DEBUG ################\n");
         debug = 1;
     } else debug = 0;
@@ -41,7 +41,7 @@ int main(int argc, char *argv[]){
     double alpha = atof(argv[4]); //entre 0 et 1
     double gamma = atof(argv[5]); // facteur d'apprentissage entre 0 et 1
     int algo = atoi(argv[1]);   // numéro de l'algorithme choisi
-
+    int jeu = atoi(argv[6]);    // jeu choisi (maze, morpion, trading)
 
     clock_t start;
     if(debug) {
@@ -53,7 +53,7 @@ int main(int argc, char *argv[]){
 
     switch(algo){
         case 1:
-            if(!qlearning(nbEpisodes, eps, alpha, gamma, Q, state_size, action_size)) {
+            if(!qlearning(jeu,nbEpisodes, eps, alpha, gamma, Q, state_size, action_size)) {
                 printf("Erreur dans l'algorithme 1\n");
                 exit(1);
             }
