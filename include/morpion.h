@@ -23,3 +23,5 @@ int search_state(int state_size, int state[9]);
 int init_states(int state_size);
 
 int play_Morpion(float** Q, int state_size, int action_size);
+
+int free_memory(int state_size);

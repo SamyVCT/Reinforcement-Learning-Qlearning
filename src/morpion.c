@@ -30,6 +30,14 @@ int init_states(int state_size) {
     return 0;
 }
 
+int free_memory(int state_size) {
+    for (int i = 0; i < state_size; i++) {
+        free(S[i]);
+    }
+    free(S);
+    return 0;
+}
+
 
 int init_plateau(){
     int i,j;
@@ -170,7 +178,7 @@ int play_Morpion(float** Q, int state_size, int action_size) {
         jouer_coup(x, y);
 
         if(a_gagne(PLAYER1)) {
-            printf("Le joueur %d a gagné\n", joueur_courant+1);
+            printf("Le joueur %d a gagné\n", PLAYER1);
             fin = 1;
             break;
         }
@@ -179,9 +187,8 @@ int play_Morpion(float** Q, int state_size, int action_size) {
         printf("Entrez votre coup (x et y) : ");
         scanf("%d %d", &coup_joueur_x, &coup_joueur_y);
         jouer_coup(coup_joueur_x, coup_joueur_y);
-        k++;
         if(a_gagne(PLAYER2)) {
-            printf("Le joueur %d a gagné\n", joueur_courant+1);
+            printf("Le joueur %d a gagné\n", PLAYER2);
             fin = 1;
         }
 

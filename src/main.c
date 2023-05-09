@@ -126,6 +126,7 @@ int main(int argc, char *argv[]){
 
     if(jeu == 2) {
        play_Morpion(Q, state_size,action_size);
+       free_memory(state_size);
     }
     
 
