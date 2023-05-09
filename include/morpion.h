@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <functions.h>
 
 extern char plateau[3][3];
 extern int joueur_courant;
@@ -17,4 +18,8 @@ int render_plateau();
 
 int board_to_state(int state[9]);
 
-int search_state(float** Q, int state_size, int state[9]);
+int search_state(int state_size, int state[9]);
+
+int init_states(int state_size);
+
+int play_Morpion(float** Q, int state_size, int action_size);

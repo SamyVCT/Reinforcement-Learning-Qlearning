@@ -44,6 +44,7 @@ int main(int argc, char *argv[]){
         case 2: // Morpion
             action_size = 9;
             state_size = 19683; // 3^9 états possibles
+            init_states(state_size);
             break;
         case 3: // Trading
             action_size = 3;
@@ -62,7 +63,7 @@ int main(int argc, char *argv[]){
     for(int i = 0; i < state_size; i++){
         for(int j = 0; j < action_size; j++){
             Q[i][j] = 0.0;
-        }
+        } 
     }
 
     // On vérifie que l'allocation mémoire a bien fonctionné et si on a le bon nombre d'arguments
@@ -121,6 +122,10 @@ int main(int argc, char *argv[]){
         resolveMaze(Q, action_size, path, &path_size);
         showResult(path, path_size);
         free(path);
+    }
+
+    if(jeu == 2) {
+       play_Morpion(Q, state_size,action_size);
     }
     
 

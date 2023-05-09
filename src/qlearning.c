@@ -64,19 +64,23 @@ int qlearning(int jeu, int nbEpisodes,double epsilon,double alpha, double gamma,
                 int x;
                 int y;
                 init_plateau();
-                while(!a_gagne(joueur_courant) && k < 9) {
-                    action a = eps_greedy(action_size, epsilon, Q, s);
+                while(!a_gagne(joueur_courant) && k < 4) {
+                    int a = eps_greedy(action_size, epsilon, Q, s);
                     if(debug) printf("Action choisie : %d\n", a);
                     x = a / 3;
                     y = a % 3;
 
-                    jouer_coup(x, y);
+                    int deja_joue = jouer_coup(x, y);
+                    if(deja_joue) {
+                        Q[s][a] = -1000000000;
+                        continue;
+                    }
 
                     if(a_gagne(PLAYER1)) {
                         int state_board[9];
                         board_to_state(state_board);
                         int s_next;
-                        s_next = search_state(Q, state_size, state_board);
+                        s_next = search_state(state_size, state_board);
 
                         Q[s][a] = Q[s][a] + alpha * (100 + gamma * maxVal(Q[s_next], action_size) - Q[s][a]);
                         break;
@@ -84,19 +88,18 @@ int qlearning(int jeu, int nbEpisodes,double epsilon,double alpha, double gamma,
 
                     // Jouer un coup au hasard pour le joueur 2;
                     
-                    x = rand()%3;
-                    y = rand()%3;
+                    x = rand() %3;
+                    y = rand() %3;
                     while(jouer_coup(x,y)) {
-                        x = rand()%3;
-                        y = rand()%3;
+                        x = rand() %3;
+                        y = rand() %3;
                     }
 
                     if(a_gagne(PLAYER2)) {
                         int state_board[9];
                         board_to_state(state_board);
                         int s_next;
-                        s_next = search_state(Q, state_size, state_board);
-
+                        s_next = search_state(state_size, state_board);
                         Q[s][a] = Q[s][a] + alpha * (-100 + gamma * maxVal(Q[s_next], action_size) - Q[s][a]);
                         break;
                     }
@@ -104,8 +107,7 @@ int qlearning(int jeu, int nbEpisodes,double epsilon,double alpha, double gamma,
                     int state_board[9];
                     board_to_state(state_board);
                     int s_next;
-                    s_next = search_state(Q, state_size, state_board);
-                    
+                    s_next = search_state(state_size, state_board);
                     Q[s][a] = Q[s][a] + alpha * (gamma * maxVal(Q[s_next], action_size) - Q[s][a]);
                     s = s_next;
 
