@@ -28,6 +28,15 @@ src/functions.o : functions.c
 src/mazeEnv.o   : mazeEnv.c 
 	$(CC) -o $@ -c $< $(CFLAGS)
 
+src/morpion.o : morpion.c
+	$(CC) -o $@ -c $< $(CFLAGS)
+
+src/mainMorpionTemp.o : mainMorpionTemp.c
+	$(CC) -o $@ -c $< $(CFLAGS)
+
+morpion: mainMorpionTemp.o morpion.o
+	$(CC) -o $@ $^ $(CFLAGS)
+
 clean:
 	rm -f src/*.o
 	rm -f main
