@@ -13,13 +13,15 @@ enum action{
 
 typedef enum action action ;
 
-struct envOutput{
-  int new_pos;
+struct tradeOutput{
+  int new_state;
   int reward;
   int done;
+  int prix_achat;
+  int nb_titres;
 
 };
 
-typedef struct envOutput envOutput;
+typedef struct tradeOutput tradeOutput;
 
 

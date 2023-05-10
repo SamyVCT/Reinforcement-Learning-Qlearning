@@ -114,11 +114,50 @@ int qlearning(int jeu, int nbEpisodes,double epsilon,double alpha, double gamma,
                     k++;
                 }
                 
-
-
-
-
                 break;
+
+            case 3 : //trading
+
+            //on choisit un état de départ au hasard
+            
+            int nb_titres = 0;
+            //int portefeuille = p_max;
+            int done = 0;
+            int stock_price = rand()%10; //indique le prix du stock, divisé en 10 intervalles
+            int s = rand() % 11; // entre 0 et 9 pour indiquer le prix du titre possédé, 10 : aucun titre possédé
+            int prix_achat ;
+            
+            init_trading();
+
+            while (done == 0){
+                
+                int a = eps_greedy(action_size, epsilon, Q, s);
+                
+                //on ne peut acheter qu'un titre financier
+                while ((nb_titres == 1 && a == buy) ||(nb_titres==0 && a == sell)){
+                    a = eps_greedy(action_size, epsilon, Q, s);
+                }
+
+                if(debug) printf("Action choisie : %d\n", a);
+
+                tradeOutput stepOut = trading_step(a);
+                int s_next = stepOut.new_state;
+                Q[s][a] = Q[s][a] + alpha * (stepOut.reward + gamma * maxVal(Q[s_next], action_size) - Q[s][a]);
+                
+                //on fait fluctuer le prix du stock
+                int fluctu = rand()%5 -2;// fluctuation + ou x- 2
+                while( stock_price + fluctu > p_max ||  stock_price + fluctu < p_min){
+                    fluctu = rand()%5 -2;
+                }
+                stock_price = stock_price + fluctu; 
+                
+                s = s_next;
+                prix_achat = stepOut.prix_achat;
+                done = stepOut.done;
+                nb_titres = stepOut.nb_titres;
+            }
+
+            break;
             default:
                 printf("Jeu inconnu\n");
                 exit(1);
