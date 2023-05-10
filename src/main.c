@@ -47,8 +47,8 @@ int main(int argc, char *argv[]){
             init_states(state_size);
             break;
         case 3: // Trading
-            action_size = 3;
-            state_size = 10; // 10 états possibles
+            action_size = 3; // buy, sell, none
+            state_size = 10; // 10 ranges of the price of the stock
             break;
         default:
             printf("Jeu inconnu\n");
