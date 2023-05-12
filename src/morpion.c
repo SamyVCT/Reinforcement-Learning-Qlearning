@@ -6,7 +6,7 @@ int affichage = 0;
 int nb_coups = 0;
 int** S;
 
-int init_states(int state_size) {
+int init_states(int state_size) { // Créé une table de tous les plateaux de morpion possibles (state_size = 3^9)
     S = malloc(state_size * sizeof(int*));
 
     // S est un tableau de tous les plateaux possibles sous forme de tableau de int de taille 9
@@ -30,16 +30,7 @@ int init_states(int state_size) {
     return 0;
 }
 
-int free_memory(int state_size) {
-    for (int i = 0; i < state_size; i++) {
-        free(S[i]);
-    }
-    free(S);
-    return 0;
-}
-
-
-int init_plateau(){
+int init_plateau(){ // Initialise le plateau de morpion
     int i,j;
     for(i=0;i<3;i++){
         for(j=0;j<3;j++){
@@ -48,14 +39,20 @@ int init_plateau(){
     }
 
     joueur_courant=PLAYER1;
+    nb_coups = 0;
     return 0;
 }
 
-int jouer_coup(int x, int y){
+
+// Joue un coup sur le plateau de morpion en position "a" et change de joueur. 
+// Renvoie 0 si le coup est joué, 1 si la case est déjà occupée, 2 si le plateau est plein
+int jouer_coup(int a){ 
     if(nb_coups == 9) {
         printf("Match nul\n");
         return 2;
     }
+    int x = a / 3;
+    int y = a % 3;
 
     if(plateau[x][y]=='.'){
         switch(joueur_courant){
@@ -71,16 +68,16 @@ int jouer_coup(int x, int y){
         }
         if(affichage) render_plateau();
         joueur_courant = (joueur_courant + 1) % 2; // change de joueur
+        nb_coups++;
         return 0;
     }
     else{
-
         //printf("Case déjà occupée\n");
         return 1;
     }
 }
 
-int a_gagne(int joueur){
+int a_gagne(int joueur){ // Renvoie 1 si "joueur" a gagné, 0 sinon
     int i;
     char symbole;
     switch(joueur){
@@ -113,7 +110,7 @@ int a_gagne(int joueur){
     return 0;
 }
 
-int render_plateau(){
+int render_plateau(){ // Affiche le plateau de morpion
     int i,j;
     for(i=0;i<3;i++){
         for(j=0;j<3;j++){
@@ -125,7 +122,7 @@ int render_plateau(){
     return 0;
 }
 
-int board_to_state(int state[9]) {
+int board_to_state(int state[9]) { // Transforme le plateau actuel en un état enregistré dans un tableau de int en base 3
     for (int i=0; i<3; i++) {
         for (int j=0; j<3; j++) {
             switch (plateau[i][j]) {
@@ -144,7 +141,10 @@ int board_to_state(int state[9]) {
     return 1;
 }
 
-int search_state(int state_size, int state[9]) {
+
+// Recherche l'état "state" dans le tableau S et renvoie
+//  son indice qui correspond à l'état actuel pour être utilisé dans Q. Return -1 si l'état n'est pas trouvé.
+int search_state(int state_size, int state[9]) { 
     for (int i=0; i<state_size; i++) {
         for(int j=0; j< 9; j++) {
             if (S[i][j] != state[j]) {
@@ -158,24 +158,33 @@ int search_state(int state_size, int state[9]) {
     return -1;
 }
 
+
+// Prend en argument la matrice des états et actions après entraiement et permet au joueur de jouer
+//  contre l'ordinateur.
 int play_Morpion(float** Q, int state_size, int action_size) {
     init_plateau();
     int x, y, k = 0;
     affichage = 1;
     int fin = 0;
-    while(!fin && k < 5) {
+
+
+    // arrête la partie si un joueur gagne ou si le plateau est plein.
+    while(!fin && nb_coups < 9) {
+
+        // On récupère le state actuel
         int state[9];
         board_to_state(state);
 
         int state_index;
         state_index = search_state(state_size, state);
 
+
+        // On récupère l'action à jouer et on la joue
         int a;
         a = maxInd(Q[state_index], action_size);
-        x = a / 3;
-        y = a % 3;
 
-        jouer_coup(x, y);
+        jouer_coup(a);
+
 
         if(a_gagne(PLAYER1)) {
             printf("Le joueur %d a gagné\n", PLAYER1);
@@ -183,10 +192,15 @@ int play_Morpion(float** Q, int state_size, int action_size) {
             break;
         }
 
-        int coup_joueur_x, coup_joueur_y;
-        printf("Entrez votre coup (x et y) : ");
-        scanf("%d %d", &coup_joueur_x, &coup_joueur_y);
-        jouer_coup(coup_joueur_x, coup_joueur_y);
+
+        // On récupère le coup du joueur et on le joue
+        int coup_joueur;
+        printf("Entrez votre coup (1 à 9) : ");
+        scanf("%d ", &coup_joueur);
+        coup_joueur--;
+        jouer_coup(coup_joueur);
+
+
         if(a_gagne(PLAYER2)) {
             printf("Le joueur %d a gagné\n", PLAYER2);
             fin = 1;
@@ -194,8 +208,5 @@ int play_Morpion(float** Q, int state_size, int action_size) {
 
         k++;
     }
-    
-
-
     return 0;
 }

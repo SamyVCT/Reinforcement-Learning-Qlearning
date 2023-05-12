@@ -11,9 +11,8 @@ int state_row;
 int state_col;
 int goal_row;
 int goal_col;
-int debug;
 
-
+// Initialise l'environnement du labyrinthe
 void alloc_mazeEnv(){
      mazeEnv = malloc(rows * sizeof(char*));
 
@@ -22,6 +21,7 @@ void alloc_mazeEnv(){
      }
 }
 
+// Créé le labyrinthe à partir d'un fichier texte dont le nom est passé en argument
 void mazeEnv_make(char* file_name){
      char c;
      char rows_s[3] ={'\0'};
@@ -78,7 +78,7 @@ void mazeEnv_make(char* file_name){
      fclose(file);
 }
 
-
+// Affiche le labyrinthe
 void mazeEnv_render(){
      for (int i=0; i<rows; i++) {
          for (int j=0; j< cols; j++){
@@ -89,23 +89,13 @@ void mazeEnv_render(){
      printf("\n");
 }
 
-void mazeEnv_render_pos(){
-     mazeEnv[state_row][state_col] = 'o';
-     for (int i=0; i<rows; i++) {
-         for (int j=0; j< cols; j++){
-             printf("%c ", mazeEnv[i][j]);
-         }
-         printf("\n");
-     }
-     printf("\n");
-}
-
-
+// Remet l'environnement à son état initial
 void mazeEnv_reset(){
      state_row = start_row;
      state_col = start_col;
 }
 
+// Renvoie 1 si on est sur un mur, 0 sinon, prend en argument la position
 int mazeEnv_is_wall(int row, int col){
      if (mazeEnv[row][col] == '+'){
          return 1;
@@ -158,46 +148,4 @@ envOutput mazeEnv_step(action a){
    return stepOut;
 }
 
-action env_action_sample(){
-  return (enum action)(rand() % number_actions);
-}
-
-void alloc_visited()
-{
-        visited = malloc(rows * sizeof(int*));
-        int i;
-        for (i = 0; i < rows; ++i){
-                visited[i] = malloc(cols * sizeof(int*));
-        }
-}
-
-
-void init_visited()
-{
-        alloc_visited();
-
-        int i, j;
-        for (i = 0; i < rows; ++i) {
-                for (j = 0; j < cols; ++j) {
-                        if (mazeEnv[i][j] == '+') {
-                                visited[i][j] = wall;
-                        } else if (mazeEnv[i][j] == 'g') {
-                                visited[i][j] = goal;
-                        } else {
-                                visited[i][j] = unknown;
-                        }
-                }
-        }
-}
-
-void add_crumbs(){
-     for (int i=0; i<rows; i++){
-          for (int j=0; j<cols; j++){
-              if (visited[i][j] ==crumb){
-                  mazeEnv[i][j] ='.';
-              }
-          }
-     }
-     mazeEnv[start_row][start_col]= 's';
-}
 

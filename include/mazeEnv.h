@@ -14,7 +14,6 @@ extern int state_row;
 extern int state_col;
 extern int goal_row;
 extern int goal_col;
-extern int debug;
 
 enum terrain{
     unknown,
@@ -50,20 +49,10 @@ void mazeEnv_make(char* );
 
 void mazeEnv_render();
 
-void mazeEnv_render_pos();
-
 void mazeEnv_reset();
 
 int mazeEnv_is_wall(int row, int col);
 
 envOutput mazeEnv_step(action a);
-
-action env_action_sample();
-
-void alloc_visited();
-
-void init_visited();
-
-void add_crumbs();
 
 #endif /* MAZEENV_H */

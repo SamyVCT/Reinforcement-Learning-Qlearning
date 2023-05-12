@@ -9,4 +9,7 @@
 
 #include <trading.h>
 
+// Mettre en commentaire si on ne veut pas afficher le débuggage.
+#define DEBUG
+
 int main(int argc, char *argv[]);

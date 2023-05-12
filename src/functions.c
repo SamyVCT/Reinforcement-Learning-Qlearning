@@ -8,7 +8,7 @@ int max(int a, int b){
     return (a>b) ? a : b;
 }
 
-
+// Prend un tableau Q de taille nbActions en entrée et renvoie l'indice de la plus grande valeur
 int maxInd(float* Q, int nbActions) {
     int maxi = 0;
     for (int i = 1; i < nbActions; i++) {
@@ -25,6 +25,7 @@ int maxInd(float* Q, int nbActions) {
     return maxi;
 }
 
+// Prend un tableau Q de taille nbActions en entrée et renvoie la plus grande valeur
 float maxVal(float* Q, int nbActions) {
     float maxi = -1000000000;
     for (int i = 0; i < nbActions; i++) {
@@ -35,7 +36,8 @@ float maxVal(float* Q, int nbActions) {
     return maxi;
 }
 
-
+// Prend en argument la matrice des récompenses Q, l'état actuel state et le nombre d'actions possibles nbActions et renvoie l'action qui maximise Q
+// avec une probabilité 1-eps et une action aléatoire avec une probabilité eps
 action eps_greedy(int nbActions, float eps, float** Q, int state){
     int action;
     double random = (double)rand() / (double)RAND_MAX;
@@ -46,4 +48,13 @@ action eps_greedy(int nbActions, float eps, float** Q, int state){
         action = maxInd(Q[state], nbActions); // Choisir l'action qui maximise Q
     }
     return action;
+}
+
+// libère la mémoire de la matrice Q de "state_size" lignes.
+int free_memory(int state_size, float** Q) {
+    for (int i = 0; i < state_size; i++) {
+        free(Q[i]);
+    }
+    free(Q);
+    return 0;
 }

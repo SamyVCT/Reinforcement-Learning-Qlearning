@@ -1,7 +1,8 @@
 #include <resolveMaze.h>
 
 
-
+// Prend en argument la matrice des états et actions après entraiement et permet de résoudre le labyrinthe,
+// le nombre d'actions action_size et la taille du chemin "path_size" et le chemin "path" sont modifiés par la fonction.
 int resolveMaze(float** Q, int action_size, action* path, int* path_size){
     mazeEnv_reset();
     int state = start_row*cols + start_col;
@@ -31,6 +32,7 @@ int resolveMaze(float** Q, int action_size, action* path, int* path_size){
     return 1;
 }
 
+// Prend en argument le chemin "path" et sa taille "path_size" et affiche le labyrinthe avec le chemin trouvé.
 int showResult(action* path, int path_size) {
     mazeEnv_reset();
 
