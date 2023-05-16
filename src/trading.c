@@ -63,3 +63,36 @@ tradeOutput trading_step(trade_action a, int prix_acquisition ,int prix_acquisit
 
     return stepOut;
 }
+
+void render_trading(){
+    //on part d'un état initial, puis on lit le fichier jour par jour et l'algo décide
+    // de l'action à réaliser grâce aux valeurs de Q
+    int jour = 0;
+
+    //nb_titre et prix d'acquisition random au début
+    int nb_titres = rand()%2; //0 ou 1 titre possédé
+    int prix_acquisition = rand() % 10; // entre 0 et 9 pour indiquer le prix du titre possédé
+
+    //lecture des données
+    FILE *fp;
+    int real_stock_price;
+  
+    fp = fopen("/data/trading_day.csv","r");
+    while(1) {
+        real_stock_price = atoi(fgetc(fp));
+        jour++;
+
+        if( feof(fp) ) { 
+            break ;
+        }
+
+        //recup min max
+
+        trade_action a = maxInd(Q[real_stock_price]);
+        
+        printf("Jour %d \n Prix du stock : %c, Action : %d \n", jour, real_stock_price, a);
+    }
+    fclose(fp);
+
+
+}
