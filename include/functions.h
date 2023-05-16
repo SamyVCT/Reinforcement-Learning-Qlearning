@@ -16,7 +16,7 @@ float maxVal(float* Q, int nbActions);
 
 action eps_greedy(int nbActions, float eps, float** Q, int state);
 
-int free_memory(int state_size, float** Q);
+int free_memory(int state_size, void** Q);
 
 
 #endif

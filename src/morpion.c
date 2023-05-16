@@ -144,6 +144,11 @@ int board_to_state(int state[9]) { // Transforme le plateau actuel en un état e
 
 // Recherche l'état "state" dans le tableau S et renvoie
 //  son indice qui correspond à l'état actuel pour être utilisé dans Q. Return -1 si l'état n'est pas trouvé.
+// Recherche l'état "state" dans le tableau S et renvoie son indice qui correspond à l'état actuel pour être utilisé dans Q.
+// output :  indice ou -1 si l'état n'est pas trouvé.
+//input: state_size :
+//       state : 
+
 int search_state(int state_size, int state[9]) { 
     for (int i=0; i<state_size; i++) {
         for(int j=0; j< 9; j++) {
@@ -163,7 +168,7 @@ int search_state(int state_size, int state[9]) {
 //  contre l'ordinateur.
 int play_Morpion(float** Q, int state_size, int action_size) {
     init_plateau();
-    int x, y, k = 0;
+    int k = 0;
     affichage = 1;
     int fin = 0;
 
@@ -196,10 +201,9 @@ int play_Morpion(float** Q, int state_size, int action_size) {
         // On récupère le coup du joueur et on le joue
         int coup_joueur;
         printf("Entrez votre coup (1 à 9) : ");
-        scanf("%d ", &coup_joueur);
+        scanf("%d", &coup_joueur);
         coup_joueur--;
         jouer_coup(coup_joueur);
-
 
         if(a_gagne(PLAYER2)) {
             printf("Le joueur %d a gagné\n", PLAYER2);

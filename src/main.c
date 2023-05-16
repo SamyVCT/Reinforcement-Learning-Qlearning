@@ -34,7 +34,6 @@ int main(int argc, char *argv[]){
     switch(jeu) {
         case 1: // Maze
             mazeEnv_make("data/maze.txt");
-            init_visited();
             action_size = number_actions;
             state_size = rows*cols;
             break;
@@ -129,15 +128,15 @@ int main(int argc, char *argv[]){
             break;
         case 2:
             play_Morpion(Q, state_size,action_size);
-            free_memory(state_size, S);
+            free_memory(state_size, (void**)S);
             break;
     
         case 3:
-            trading(Q,state_size, action_size);
+            //trading(Q,state_size, action_size);
             break;
     }    
 
-    free_memory(state_size, Q);
+    free_memory(state_size, (void**)Q);
 
     return 0;
 }

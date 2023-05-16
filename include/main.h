@@ -1,7 +1,6 @@
 #include <mazeEnv.h>
 
 #include <time.h>
-
 #include <qlearning.h>
 #include <resolveMaze.h>
 

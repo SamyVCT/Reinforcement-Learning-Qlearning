@@ -68,7 +68,6 @@ int qlearning(int jeu, int nbEpisodes,double epsilon,double alpha, double gamma,
                 // On choisi un état de départ au hasard
 
                 int s = 0;
-                int k = 0;
                 int won = 0;
                 init_plateau();
                 
@@ -95,23 +94,27 @@ int qlearning(int jeu, int nbEpisodes,double epsilon,double alpha, double gamma,
 
                     if(a_gagne(PLAYER1)) {
                         won = 1;
+                    } 
+                    else {
+                        // Joue un coup au hasard pour le joueur 2;
+                        int a2 = rand() %9;
+                        while(jouer_coup(a2)) {
+                            a2 = rand() %9;
+                        }
+
+                        if(a_gagne(PLAYER2)) {
+                            won = -100;
+                        }
                     }
 
-                    // Joue un coup au hasard pour le joueur 2;
-                    int a2 = rand() %9;
-                    while(jouer_coup(a2)) {
-                        a2 = rand() %9;
-                    }
-
-                    if(a_gagne(PLAYER2)) {
-                        won = -1;
-                    }
                     
                     // On met à jour la Q-table : Si l'action "a" a mené à la victoire, on augmente la récompense associée à cette action
                     // Si elle a mené à la défaite au coup au hasard suivant, on diminue la récompense associée à cette action.
-                    Q[s][a] = Q[s][a] + alpha * (100 * won + gamma * maxVal(Q[s_next], action_size) - Q[s][a]);
-                    s = s_next;
+                    Q[s][a] = Q[s][a] + alpha * (10+100 * won + gamma * maxVal(Q[s_next], action_size) - Q[s][a]);
 
+                    // Met à jour l'état après que le 2e joueur a joué
+                    board_to_state(state_board);
+                    s = search_state(state_size, state_board);
                 }
                 
                 break;

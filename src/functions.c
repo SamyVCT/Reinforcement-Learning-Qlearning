@@ -51,7 +51,7 @@ action eps_greedy(int nbActions, float eps, float** Q, int state){
 }
 
 // libère la mémoire de la matrice Q de "state_size" lignes.
-int free_memory(int state_size, float** Q) {
+int free_memory(int state_size, void** Q) {
     for (int i = 0; i < state_size; i++) {
         free(Q[i]);
     }
