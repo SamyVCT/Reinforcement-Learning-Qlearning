@@ -94,6 +94,7 @@ void render_trading(float** Q){
         //prix_matrice  = prix - mini / delta -> dans [0,9]
         int indice_stock_price = (real_stock_price - mini) / delta;       
         trade_action a ;
+        // change indique s'il y a eu une nouvelle action à afficher
         int change = 0;
         int indice_ligne_Q = 10*indice_stock_price + prix_acquisition;
 
