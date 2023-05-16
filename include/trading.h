@@ -3,21 +3,19 @@
 #include <stdlib.h>
 
 
-enum action{
+enum trade_action{
     sell,
     buy,
     none,
-    number_actions
-
 };
 
-typedef enum action action ;
+typedef enum trade_action trade_action ;
 
 struct tradeOutput{
-  int new_state;
   int reward;
   int done;
-  int prix_achat;
+  int prix_acquisition;
+  int prix_acquisition_old;
   int nb_titres;
 
 };
@@ -25,3 +23,4 @@ struct tradeOutput{
 typedef struct tradeOutput tradeOutput;
 
 
+tradeOutput trading_step(trade_action a, int prix_acquisition, int prix_acquisition_old, int nb_titres, int stock_price);

@@ -21,13 +21,15 @@ fontionnement du programme.
 * sarsa.c est un autre algorithme d'apprentissage par renforcement par l'algorithme de SARSA. 
 * main.c permet d'initialiser Q, les valeurs utiles, puis de lancer l'algorithme de renforcement choisi. 
 * resolveMaze.c affiche le chemin de sortie trouvé en suivant les récompenses maximales de Q. 
+* morpion.c est un jeu de morpion résolvable avec l'apprentissage par renforcement
+* trading.c permet de réaliser une étape de trading (vendre/acheter/ne rien faire) et de créer Q.
 
 Pour faire fonctionner l'algorithme : 
 
 Il faut lancer "make all" qui crée un fichier "main" à la racine du dépôt (pas dans /src !)
 puis ./main <numéro algo> <nombre d'épisodes> \<epsilon\> \<alpha\> \<gamma\> [debug] 
 * <numéro algo> = 1 pour Q-learning 
-* <numéro algo> = 2 pour sarsa \
+* <numéro algo> = 2 pour sarsa \    
 Puis les paramètres à utiliser (éventuellement ajouter l'argument "debug" pour afficher la matrice Q ainsi que des étapes intermédiaires de l'algorithme). 
 
 Ces paramètres fonctionnent bien pour les deux algorithmes : 
