@@ -52,9 +52,7 @@ tradeOutput trading_step(trade_action a, int prix_acquisition ,int prix_acquisit
         }
         done = 1;
     }
-
-
-    
+  
     stepOut.reward = reward;
     stepOut.done   = done;
     stepOut.prix_acquisition = prix_acquisition;
@@ -73,20 +71,18 @@ void render_trading(float** Q){
     int nb_titres = 1; //0 ou 1 titre possédé
     int prix_acquisition = rand() % 10; // entre 0 et 9 pour indiquer le prix du titre possédé
     
-
     //lecture des données
     FILE *fp;
     int real_stock_price;
   
     fp = fopen("data/trading_day.csv","r");
+    
     //recup min max
     int mini = 5687;
     int maxi = 7570;
-    int delta = (maxi - mini) /10;
-
+    int delta = (maxi - mini) /10; // pour séparer en 10 intervalles
     int argent_tot = -(mini + delta*prix_acquisition);
     printf("Jour 0 \n  Argent : %d\n", argent_tot);
-    
     while(1) {
         fscanf(fp,"%d\n", &real_stock_price);
         jour++;
@@ -96,11 +92,9 @@ void render_trading(float** Q){
         }
 
         //prix_matrice  = prix - mini / delta -> dans [0,9]
-        int indice_stock_price = (real_stock_price - mini) / delta;
-        
+        int indice_stock_price = (real_stock_price - mini) / delta;       
         trade_action a ;
         int change = 0;
-
         int indice_ligne_Q = 10*indice_stock_price + prix_acquisition;
 
         if (nb_titres == 0){

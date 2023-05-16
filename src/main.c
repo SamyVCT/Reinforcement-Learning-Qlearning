@@ -132,11 +132,6 @@ int main(int argc, char *argv[]){
             break;
     
         case 3:
-            //trading(Q,state_size, action_size);
-            // FILE *fp;    
-            // fp = fopen("data/trading_day.csv","r");
-            // int real_stock_price = (fgetc(fp));
-            // printf("%d", real_stock_price);
             render_trading(Q);
             break;
     }    
