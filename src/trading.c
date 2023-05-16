@@ -64,33 +64,71 @@ tradeOutput trading_step(trade_action a, int prix_acquisition ,int prix_acquisit
     return stepOut;
 }
 
-void render_trading(){
+void render_trading(float** Q){
     //on part d'un état initial, puis on lit le fichier jour par jour et l'algo décide
     // de l'action à réaliser grâce aux valeurs de Q
     int jour = 0;
 
     //nb_titre et prix d'acquisition random au début
-    int nb_titres = rand()%2; //0 ou 1 titre possédé
+    int nb_titres = 1; //0 ou 1 titre possédé
     int prix_acquisition = rand() % 10; // entre 0 et 9 pour indiquer le prix du titre possédé
+    
 
     //lecture des données
     FILE *fp;
     int real_stock_price;
   
-    fp = fopen("/data/trading_day.csv","r");
+    fp = fopen("data/trading_day.csv","r");
+    //recup min max
+    int mini = 5687;
+    int maxi = 7570;
+    int delta = (maxi - mini) /10;
+
+    int argent_tot = -(mini + delta*prix_acquisition);
+    printf("Jour 0 \n  Argent : %d\n", argent_tot);
+    
     while(1) {
-        real_stock_price = atoi(fgetc(fp));
+        fscanf(fp,"%d\n", &real_stock_price);
         jour++;
 
         if( feof(fp) ) { 
             break ;
         }
 
-        //recup min max
-
-        trade_action a = maxInd(Q[real_stock_price]);
+        //prix_matrice  = prix - mini / delta -> dans [0,9]
+        int indice_stock_price = (real_stock_price - mini) / delta;
         
-        printf("Jour %d \n Prix du stock : %c, Action : %d \n", jour, real_stock_price, a);
+        trade_action a ;
+        int change = 0;
+
+        int indice_ligne_Q = 10*indice_stock_price + prix_acquisition;
+
+        if (nb_titres == 0){
+            if (Q[indice_ligne_Q][1] > Q[indice_ligne_Q][2]) {a = 1; change = 1;}
+            else a = 2;
+        }
+        if (nb_titres == 1){
+            if (Q[indice_ligne_Q][0] > Q[indice_ligne_Q][2]) {a = 0; change = 1 ;}
+            else a = 2;
+        }
+
+        if (a==0 && change==1){
+            char* action = "vendre";
+            nb_titres = 0;
+            prix_acquisition = indice_stock_price;
+            argent_tot = argent_tot + (mini+delta*prix_acquisition);
+            printf("Jour %d \n Prix du stock (indice) : %d, Prix du stock (réel) : %d, Action : %s, Argent : %d\n", jour, indice_stock_price, real_stock_price, action, argent_tot);
+
+        }
+        else if (a==1 && change==1){
+            char* action = "acheter";
+            nb_titres = 1;
+            prix_acquisition = indice_stock_price;
+            argent_tot = argent_tot - (mini+delta*prix_acquisition);
+            printf("Jour %d \n Prix du stock (indice) : %d, Prix du stock (réel) : %d, Action : %s, Argent : %d\n", jour, indice_stock_price, real_stock_price,action, argent_tot);
+
+        }
+
     }
     fclose(fp);
 

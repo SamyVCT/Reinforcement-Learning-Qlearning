@@ -1,5 +1,6 @@
 #include <qlearning.h>
 
+
 int qlearning(int jeu, int nbEpisodes,double epsilon,double alpha, double gamma, float **Q, int state_size, int action_size){    
     
     /* 
@@ -68,6 +69,7 @@ int qlearning(int jeu, int nbEpisodes,double epsilon,double alpha, double gamma,
                 // On choisi un état de départ au hasard
 
                 int s = 0;
+                //int k = 0;
                 int won = 0;
                 init_plateau();
                 
@@ -139,21 +141,27 @@ int qlearning(int jeu, int nbEpisodes,double epsilon,double alpha, double gamma,
                     while ((nb_titres == 1 && a == 1) ||(nb_titres==0 && a == 0)){
                         a = eps_greedy(action_size, epsilon, Q, prix_acquisition);
                     }
-                    if (i==1) printf("1er jour\n");
+                    //if (i==1) printf("1er jour\n");
                     //printf("AVANT  = Action choisie, titre,prix_acquisition, stock,done : %d, %d, %d, %d,%d\n", a, nb_titres, prix_acquisition, stock_price,done);
 
                     tradeOutput stepOut = trading_step(a, prix_acquisition, prix_acquisition_old, nb_titres, stock_price);
 
                     int s_next = stepOut.prix_acquisition;
-                    Q[prix_acquisition][a] = Q[prix_acquisition][a] + alpha * (stepOut.reward + gamma * maxVal(Q[s_next], action_size) - Q[prix_acquisition][a]);
                     
                     //on fait fluctuer le prix du stock
                     int fluctu = rand()%5 -2;// fluctuation + ou - 2
                     while( stock_price + fluctu > 9 ||  stock_price + fluctu < 0){
                         fluctu = rand()%5 -2;
                     }
-                    stock_price = stock_price + fluctu; 
                     
+                    //1er chiffre de indice = stock et 2eme chiffre = acquisition
+                    int indice = 10*stock_price + prix_acquisition;
+                    int indice_next = 10*(stock_price + fluctu) + s_next;
+                    Q[indice][a] = Q[indice][a] + alpha * (stepOut.reward + gamma * maxVal(Q[indice_next], action_size) - Q[indice][a]);
+                    
+                    
+                    stock_price = stock_price + fluctu; 
+
                     prix_acquisition = s_next;
                     done = stepOut.done;
                     nb_titres = stepOut.nb_titres;

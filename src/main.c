@@ -44,7 +44,7 @@ int main(int argc, char *argv[]){
             break;
         case 3: // Trading
             action_size = 3; // buy, sell, none
-            state_size = 10; // 10 ranges of the price of the stock
+            state_size = 100; // 10 ranges of the price of the stock * 10 ranges of price for the share
             break;
         default:
             printf("Jeu inconnu\n");
@@ -133,6 +133,11 @@ int main(int argc, char *argv[]){
     
         case 3:
             //trading(Q,state_size, action_size);
+            // FILE *fp;    
+            // fp = fopen("data/trading_day.csv","r");
+            // int real_stock_price = (fgetc(fp));
+            // printf("%d", real_stock_price);
+            render_trading(Q);
             break;
     }    
 
