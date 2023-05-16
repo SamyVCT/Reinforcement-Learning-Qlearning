@@ -73,7 +73,7 @@ int main(int argc, char *argv[]){
     }
 
 
-    // On lance l'algorithme choisit
+    // On lance l'algorithme choisi
 
     switch(algo){
         case 1:
@@ -131,7 +131,7 @@ int main(int argc, char *argv[]){
     
     if(jeu == 3) {
         //trading(Q,state_size, action_size);
-
+        //render_trading();
     }
 
     // free memory
