@@ -7,6 +7,5 @@
 
 #include <sarsa.h>
 
-#include <trading.h>
 
 int main(int argc, char *argv[]);

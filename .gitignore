@@ -1,0 +1,4 @@
+# ignore les .o pour les commit
+*.o
+
+main

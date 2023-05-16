@@ -118,44 +118,46 @@ int qlearning(int jeu, int nbEpisodes,double epsilon,double alpha, double gamma,
 
             case 3 : //trading
 
-            //on choisit un état de départ au hasard
-            
-            int nb_titres = 0;
-            //int portefeuille = p_max;
-            int done = 0;
-            int stock_price = rand()%10; //indique le prix du stock, divisé en 10 intervalles
-            int s = rand() % 11; // entre 0 et 9 pour indiquer le prix du titre possédé, 10 : aucun titre possédé
-            int prix_achat ;
-            
-            init_trading();
+                //on choisit un état de départ au hasard
+                
+                int nb_titres = rand()%2; //0 ou 1 titre possédé
+                //int portefeuille = p_max;
+                int done = 0;
+                int stock_price = rand()%10; //indique le prix du stock, divisé en 10 intervalles
+                int prix_acquisition = rand() % 10; // entre 0 et 9 pour indiquer le prix du titre possédé
+                int prix_acquisition_old = prix_acquisition;
 
-            while (done == 0){
-                
-                int a = eps_greedy(action_size, epsilon, Q, s);
-                
-                //on ne peut acheter qu'un titre financier
-                while ((nb_titres == 1 && a == buy) ||(nb_titres==0 && a == sell)){
-                    a = eps_greedy(action_size, epsilon, Q, s);
+                int i = 0;
+                while (done == 0 && i < 50){
+                    i++;
+                    int a = eps_greedy(action_size, epsilon, Q, prix_acquisition);
+                    
+                    //on ne peut acheter qu'un titre financier (version simple)
+                    while ((nb_titres == 1 && a == 1) ||(nb_titres==0 && a == 0)){
+                        a = eps_greedy(action_size, epsilon, Q, prix_acquisition);
+                    }
+                    if (i==1) printf("1er jour\n");
+                    //printf("AVANT  = Action choisie, titre,prix_acquisition, stock,done : %d, %d, %d, %d,%d\n", a, nb_titres, prix_acquisition, stock_price,done);
+
+                    tradeOutput stepOut = trading_step(a, prix_acquisition, prix_acquisition_old, nb_titres, stock_price);
+
+                    int s_next = stepOut.prix_acquisition;
+                    Q[prix_acquisition][a] = Q[prix_acquisition][a] + alpha * (stepOut.reward + gamma * maxVal(Q[s_next], action_size) - Q[prix_acquisition][a]);
+                    
+                    //on fait fluctuer le prix du stock
+                    int fluctu = rand()%5 -2;// fluctuation + ou - 2
+                    while( stock_price + fluctu > 9 ||  stock_price + fluctu < 0){
+                        fluctu = rand()%5 -2;
+                    }
+                    stock_price = stock_price + fluctu; 
+                    
+                    prix_acquisition = s_next;
+                    done = stepOut.done;
+                    nb_titres = stepOut.nb_titres;
+                    prix_acquisition_old = stepOut.prix_acquisition_old ;
+                    //printf("APRES  = Action choisie, titre,prix_acquisition, stock,done : %d, %d, %d, %d,%d\n", a, nb_titres, prix_acquisition, stock_price,done);
+
                 }
-
-                if(debug) printf("Action choisie : %d\n", a);
-
-                tradeOutput stepOut = trading_step(a);
-                int s_next = stepOut.new_state;
-                Q[s][a] = Q[s][a] + alpha * (stepOut.reward + gamma * maxVal(Q[s_next], action_size) - Q[s][a]);
-                
-                //on fait fluctuer le prix du stock
-                int fluctu = rand()%5 -2;// fluctuation + ou x- 2
-                while( stock_price + fluctu > p_max ||  stock_price + fluctu < p_min){
-                    fluctu = rand()%5 -2;
-                }
-                stock_price = stock_price + fluctu; 
-                
-                s = s_next;
-                prix_achat = stepOut.prix_achat;
-                done = stepOut.done;
-                nb_titres = stepOut.nb_titres;
-            }
 
             break;
             default:

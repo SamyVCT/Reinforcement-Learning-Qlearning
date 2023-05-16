@@ -130,10 +130,10 @@ int main(int argc, char *argv[]){
     }
     
     if(jeu == 3) {
-        trading(Q,state_size, action_size);
+        //trading(Q,state_size, action_size);
 
     }
-    
+
     // free memory
     for(int i = 0; i < state_size; i++) free(Q[i]);
     free(Q);
