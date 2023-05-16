@@ -2,14 +2,9 @@
 
 
 tradeOutput trading_step(trade_action a, int prix_acquisition ,int prix_acquisition_old, int nb_titres, int stock_price){
-    //int stock_price = rand()%10;  //indique le prix du stock, divisé en 10 intervalles
     int reward = 0;
     int done = 0;
-    //printf("1");
-
     tradeOutput stepOut;
-
-
 
     //0 = sell, 1 = buy, 2 = none
     if (a == 1){
@@ -65,14 +60,6 @@ tradeOutput trading_step(trade_action a, int prix_acquisition ,int prix_acquisit
     stepOut.prix_acquisition = prix_acquisition;
     stepOut.nb_titres = nb_titres;
     stepOut.prix_acquisition_old = prix_acquisition_old;
-    //render_trade();
 
     return stepOut;
 }
-
-// int render_trade(){
-//     printf("action : %d \n",a);
-//     printf("state : %d \n", new_state);
-
-//     return 1;
-// }
