@@ -40,7 +40,6 @@ int main(int argc, char *argv[]){
         case 2: // Morpion
             action_size = 9;
             state_size = 19683; // 3^9 états possibles
-            init_states(state_size);
             break;
         case 3: // Trading
             action_size = 3; // buy, sell, none
@@ -128,7 +127,6 @@ int main(int argc, char *argv[]){
             break;
         case 2:
             play_Morpion(Q, state_size,action_size);
-            free_memory(state_size, (void**)S);
             break;
     
         case 3:

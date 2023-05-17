@@ -3,7 +3,7 @@ vpath %.c src
 vpath %.o src
 
 CC=gcc 
-CFLAGS=-Wall -Werror -I include/ -g
+CFLAGS=-Wall -Werror -I include/ -g -lm
 
 all: main
 

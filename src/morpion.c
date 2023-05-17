@@ -4,31 +4,6 @@ char plateau[3][3];
 int joueur_courant;
 int affichage = 0;
 int nb_coups = 0;
-int** S;
-
-int init_states(int state_size) { // Créé une table de tous les plateaux de morpion possibles (state_size = 3^9)
-    S = malloc(state_size * sizeof(int*));
-
-    // S est un tableau de tous les plateaux possibles sous forme de tableau de int de taille 9
-    for (int i = 0; i < state_size; i++) {
-        S[i] = malloc(9 * sizeof(int));
-
-        // S[i] = i en base 3 sous forme d'un tableau de int
-        int j = 0;
-        int k;
-        k = i;
-        while (k > 0) {
-            S[i][8-j] = k % 3;
-            k = k / 3;
-            j++;
-        }
-        while (j < 9) {
-            S[i][8-j] = 0;
-            j++;
-        }
-    }
-    return 0;
-}
 
 int init_plateau(){ // Initialise le plateau de morpion
     int i,j;
@@ -123,7 +98,7 @@ int render_plateau(){ // Affiche le plateau de morpion
 }
 
 int board_to_state() { // Transforme le plateau actuel en un état enregistré dans un tableau de int en base 3
-    int etat;
+    int etat = 0;
     int state[9];
     for (int i=0; i<3; i++) {
         for (int j=0; j<3; j++) {
@@ -143,7 +118,7 @@ int board_to_state() { // Transforme le plateau actuel en un état enregistré d
 
     // Conversion en base 10 du plateau écrit en base 3.
     for (int i=0; i<9; i++) {
-        etat += state[i] * pow(3, 8-i);
+        etat += (state[i] * pow(3, 8-i));
     }
     return etat;
 }
@@ -155,21 +130,6 @@ int board_to_state() { // Transforme le plateau actuel en un état enregistré d
 // output :  indice ou -1 si l'état n'est pas trouvé.
 //input: state_size :
 //       state : 
-
-int search_state(int state_size, int state[9]) { 
-    for (int i=0; i<state_size; i++) {
-        for(int j=0; j< 9; j++) {
-            if (S[i][j] != state[j]) {
-                break;
-            }
-            if (j == 8) {
-                return i;
-            }
-        }
-    }
-    return -1;
-}
-
 
 // Prend en argument la matrice des états et actions après entraiement et permet au joueur de jouer
 //  contre l'ordinateur.
