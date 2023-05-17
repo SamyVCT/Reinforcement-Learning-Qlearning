@@ -87,10 +87,11 @@ int qlearning(int jeu, int nbEpisodes,double epsilon,double alpha, double gamma,
 
 
                     // On récupère le state lié au plateau actuel (après avoir joué le coup) -> cf fonctions board_to_state et search_state
-                    int state_board[9];
-                    board_to_state(state_board);
+                    //int state_board[9];
+                    //board_to_state(state_board);
                     int s_next;
-                    s_next = search_state(state_size, state_board);
+                    //s_next = search_state(state_size, state_board);
+                    s_next = board_to_state();
 
                     if(a_gagne(PLAYER1)) {
                         won = 1;
@@ -113,8 +114,8 @@ int qlearning(int jeu, int nbEpisodes,double epsilon,double alpha, double gamma,
                     Q[s][a] = Q[s][a] + alpha * (10+100 * won + gamma * maxVal(Q[s_next], action_size) - Q[s][a]);
 
                     // Met à jour l'état après que le 2e joueur a joué
-                    board_to_state(state_board);
-                    s = search_state(state_size, state_board);
+                    s = board_to_state();
+                    //s = search_state(state_size, state_board);
                 }
                 
                 break;

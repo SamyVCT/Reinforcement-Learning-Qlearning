@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <functions.h>
+#include <math.h>
 
 extern char plateau[3][3];
 extern int joueur_courant;
@@ -18,7 +19,7 @@ int a_gagne(int joueur);
 
 int render_plateau();
 
-int board_to_state(int state[9]);
+int board_to_state();
 
 int search_state(int state_size, int state[9]);
 

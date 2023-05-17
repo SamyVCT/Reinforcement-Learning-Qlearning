@@ -122,7 +122,9 @@ int render_plateau(){ // Affiche le plateau de morpion
     return 0;
 }
 
-int board_to_state(int state[9]) { // Transforme le plateau actuel en un état enregistré dans un tableau de int en base 3
+int board_to_state() { // Transforme le plateau actuel en un état enregistré dans un tableau de int en base 3
+    int etat;
+    int state[9];
     for (int i=0; i<3; i++) {
         for (int j=0; j<3; j++) {
             switch (plateau[i][j]) {
@@ -138,7 +140,12 @@ int board_to_state(int state[9]) { // Transforme le plateau actuel en un état e
             }
         }
     }
-    return 1;
+
+    // Conversion en base 10 du plateau écrit en base 3.
+    for (int i=0; i<9; i++) {
+        etat += state[i] * pow(3, 8-i);
+    }
+    return etat;
 }
 
 
@@ -177,11 +184,11 @@ int play_Morpion(float** Q, int state_size, int action_size) {
     while(!fin && nb_coups < 9) {
 
         // On récupère le state actuel
-        int state[9];
-        board_to_state(state);
+        //int state[9];
+        //board_to_state(state);
 
         int state_index;
-        state_index = search_state(state_size, state);
+        state_index = board_to_state();
 
 
         // On récupère l'action à jouer et on la joue
