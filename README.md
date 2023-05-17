@@ -2,7 +2,7 @@
 # AUTHORS : Corentin LACHEVRE, Samy VINCENT
 
 Voici notre dépôt github dédié à l'apprentissage par renforcement. \
-On implémente différents algorithmes pour trouver la sortie d'un labyrinthe. 
+On implémente différents algorithmes pour trouver la sortie d'un labyrinthe, et on les teste sur 2 autres environnements. 
 
 
 Vous trouverez plusieurs dossiers : 
@@ -33,9 +33,9 @@ Il faut lancer "make all" qui crée un fichier "main" à la racine du dépôt (p
 puis ./main <numéro algo> <nombre d'épisodes> \<epsilon\> \<alpha\> \<gamma\> \<jeu\> [debug] 
 * <numéro algo> = 1 pour Q-learning 
 * <numéro algo> = 2 pour sarsa 
-* <jeu> = 1 pour la résolution du labyrinthe  
-* <jeu> = 2 pour la résolution du morpion
-* <jeu> = 3 pour faire du trading
+* \<jeu\>  = 1 pour la résolution du labyrinthe  
+* \<jeu\>  = 2 pour la résolution du morpion
+* \<jeu\>  = 3 pour faire du trading \
 Puis les paramètres à utiliser (éventuellement ajouter l'argument "debug" pour afficher la matrice Q ainsi que des étapes intermédiaires de l'algorithme). 
 
 Ces paramètres fonctionnent bien pour les deux algorithmes : 
@@ -43,4 +43,4 @@ Ces paramètres fonctionnent bien pour les deux algorithmes :
 * \<alpha\> = 0.1
 * \<gamma\> = 0.9
 
-D'après nos observations, l'algorithme SARSA a besoin de plus d'épisodes pour converger ; n'hésitez pas à augmenter la valeur si le labyrinthe n'est pas résolu.
+D'après nos observations, l'algorithme SARSA a besoin de plus d'épisodes pour converger : n'hésitez pas à augmenter la valeur si le labyrinthe n'est pas résolu.
