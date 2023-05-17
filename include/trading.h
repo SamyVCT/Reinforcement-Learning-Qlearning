@@ -1,7 +1,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <function.h>
+#include <functions.h>
 
 enum trade_action{
     sell,
@@ -24,3 +24,5 @@ typedef struct tradeOutput tradeOutput;
 
 
 tradeOutput trading_step(trade_action a, int prix_acquisition, int prix_acquisition_old, int nb_titres, int stock_price);
+
+void render_trading(float** Q);
