@@ -5,7 +5,7 @@ int joueur_courant;
 int affichage = 0;
 int nb_coups = 0;
 
-int init_plateau(){ // Initialise le plateau de morpion
+int init_plateau(){ 
     int i,j;
     for(i=0;i<3;i++){
         for(j=0;j<3;j++){
@@ -19,8 +19,6 @@ int init_plateau(){ // Initialise le plateau de morpion
 }
 
 
-// Joue un coup sur le plateau de morpion en position "a" et change de joueur. 
-// Renvoie 0 si le coup est joué, 1 si la case est déjà occupée, 2 si le plateau est plein
 int jouer_coup(int a){ 
     if(nb_coups == 9) {
         printf("Match nul\n");
@@ -52,7 +50,7 @@ int jouer_coup(int a){
     }
 }
 
-int a_gagne(int joueur){ // Renvoie 1 si "joueur" a gagné, 0 sinon
+int a_gagne(int joueur){ 
     int i;
     char symbole;
     switch(joueur){
@@ -85,7 +83,7 @@ int a_gagne(int joueur){ // Renvoie 1 si "joueur" a gagné, 0 sinon
     return 0;
 }
 
-int render_plateau(){ // Affiche le plateau de morpion
+int render_plateau(){ 
     int i,j;
     for(i=0;i<3;i++){
         for(j=0;j<3;j++){
@@ -97,7 +95,7 @@ int render_plateau(){ // Affiche le plateau de morpion
     return 0;
 }
 
-int board_to_state() { // Transforme le plateau actuel en un état enregistré dans un tableau de int en base 3
+int board_to_state() {
     int etat = 0;
     int state[9];
     for (int i=0; i<3; i++) {
@@ -124,15 +122,6 @@ int board_to_state() { // Transforme le plateau actuel en un état enregistré d
 }
 
 
-// Recherche l'état "state" dans le tableau S et renvoie
-//  son indice qui correspond à l'état actuel pour être utilisé dans Q. Return -1 si l'état n'est pas trouvé.
-// Recherche l'état "state" dans le tableau S et renvoie son indice qui correspond à l'état actuel pour être utilisé dans Q.
-// output :  indice ou -1 si l'état n'est pas trouvé.
-//input: state_size :
-//       state : 
-
-// Prend en argument la matrice des états et actions après entraiement et permet au joueur de jouer
-//  contre l'ordinateur.
 int play_Morpion(float** Q, int state_size, int action_size) {
     init_plateau();
     int k = 0;
@@ -144,9 +133,6 @@ int play_Morpion(float** Q, int state_size, int action_size) {
     while(!fin && nb_coups < 9) {
 
         // On récupère le state actuel
-        //int state[9];
-        //board_to_state(state);
-
         int state_index;
         state_index = board_to_state();
 

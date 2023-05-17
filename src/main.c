@@ -10,7 +10,7 @@ int main(int argc, char *argv[]){
         exit(1);
     }
     #ifdef DEBUG
-        printf("################ MODE DEBUG ################\n");
+        printf("\x1b[31m################ MODE DEBUG ################ \x1b[m\n");
     #endif
 
     // Définition des paramètres de l'algorithme
@@ -103,7 +103,7 @@ int main(int argc, char *argv[]){
         // affichage de la matrice Q
 
         for(int i = 0; i < state_size; i++){
-            printf("Etat %d : ", i);
+            printf("\x1b[33mEtat %d : \x1b[m", i);
             for(int j = 0; j < action_size; j++){
                 printf("%f ", Q[i][j]);
             }
@@ -112,7 +112,7 @@ int main(int argc, char *argv[]){
 
         // On affiche le temps d'exécution
         double time_spent = (double)(end - start) / CLOCKS_PER_SEC;
-        printf("Temps écoulé pour l'entrainement : %f\n", time_spent);
+        printf("\nTemps écoulé pour l'entrainement : \x1b[31m%fs\x1b[m\n\n", time_spent);
     #endif
 
     // On lance le jeu
@@ -126,7 +126,12 @@ int main(int argc, char *argv[]){
             free(path);
             break;
         case 2:
-            play_Morpion(Q, state_size,action_size);
+            char c = 'y';
+            while(c == 'y') {
+                play_Morpion(Q, state_size,action_size);
+                printf("Voulez-vous rejouer ? (y/n)\n");
+                scanf("%s", &c);
+            }
             break;
     
         case 3:
