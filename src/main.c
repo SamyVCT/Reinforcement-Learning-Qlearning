@@ -118,6 +118,7 @@ int main(int argc, char *argv[]){
     // On lance le jeu
     switch(jeu) {
         case 1:
+            ;
             // calcul et affichage du parcours.
             action* path = malloc(500*sizeof(int));
             int path_size;
@@ -126,6 +127,7 @@ int main(int argc, char *argv[]){
             free(path);
             break;
         case 2:
+            ;
             char c = 'y';
             while(c == 'y') {
                 play_Morpion(Q, state_size,action_size);

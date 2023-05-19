@@ -67,7 +67,7 @@ int qlearning(int jeu, int nbEpisodes,double epsilon,double alpha, double gamma,
             case 2:
                 
                 // On choisi un état de départ au hasard
-
+                ;
                 int s = 0;
                 //int k = 0;
                 int won = 0;
@@ -125,7 +125,7 @@ int qlearning(int jeu, int nbEpisodes,double epsilon,double alpha, double gamma,
             case 3 : //trading
 
                 //on choisit un état de départ au hasard
-                
+                ;
                 int nb_titres = rand()%2; //0 ou 1 titre possédé
                 int done = 0;
                 int stock_price = rand()%10; //indique le prix du stock, divisé en 10 intervalles
