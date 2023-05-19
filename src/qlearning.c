@@ -28,7 +28,7 @@ int qlearning(int jeu, int nbEpisodes,double epsilon,double alpha, double gamma,
             case 1: 
                 //mazeEnv_reset(); 
 
-                // On choisi une position de départ au hasard
+                // On choisit une position de départ au hasard
 
                 state_col = rand() % cols;
                 state_row = rand() % rows;
@@ -66,7 +66,7 @@ int qlearning(int jeu, int nbEpisodes,double epsilon,double alpha, double gamma,
             // ################ Morpion ################
             case 2:
                 
-                // On choisi un état de départ au hasard
+                // On choisit un état de départ au hasard
                 ;
                 int s = 0;
                 //int k = 0;
@@ -117,7 +117,6 @@ int qlearning(int jeu, int nbEpisodes,double epsilon,double alpha, double gamma,
 
                     // Met à jour l'état après que le 2e joueur a joué
                     s = board_to_state();
-                    //s = search_state(state_size, state_board);
                 }
                 
                 break;

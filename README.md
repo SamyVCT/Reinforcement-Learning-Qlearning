@@ -1,4 +1,4 @@
-# Reinforcement Learning Project : Maze 
+# Reinforcement Learning Project
 # AUTHORS : Corentin LACHEVRE, Samy VINCENT
 
 Voici notre dépôt github dédié à l'apprentissage par renforcement. \
@@ -31,14 +31,14 @@ fontionnement du programme.
 Pour faire fonctionner l'algorithme : 
 
 Il faut lancer "make all" qui crée un fichier "main" à la racine du dépôt (pas dans /src !)
-puis ./main <numéro algo> <nombre d'épisodes> \<epsilon\> \<alpha\> \<gamma\> \<jeu\> [debug] 
+puis ./main <numéro algo> <nombre d'épisodes> \<epsilon\> \<alpha\> \<gamma\> \<jeu\>
 * <numéro algo> = 1 pour Q-learning 
 * <numéro algo> = 2 pour sarsa 
 * <numéro algo> = 3 pour Double Q-learning  
 * \<jeu\>  = 1 pour la résolution du labyrinthe  
 * \<jeu\>  = 2 pour la résolution du morpion
 * \<jeu\>  = 3 pour faire du trading \
-Puis les paramètres à utiliser (éventuellement ajouter l'argument "debug" pour afficher la matrice Q ainsi que des étapes intermédiaires de l'algorithme). 
+Puis les paramètres à utiliser :
 
 Ces paramètres fonctionnent bien pour les trois algorithmes : 
 * \<epsilon\> = 0.3
