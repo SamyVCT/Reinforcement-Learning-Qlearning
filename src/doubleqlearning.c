@@ -1,7 +1,7 @@
-#include <qlearning.h>
+#include <doubleqlearning.h>
 
 
-int qlearning(int jeu, int nbEpisodes,double epsilon,double alpha, double gamma, float **Q, int state_size, int action_size){    
+int doubleqlearning(int jeu, int nbEpisodes,double epsilon,double alpha, double gamma, float **Q1, float **Q2, int state_size, int action_size){    
     
     /* 
      Fonctionnement de l'algo
@@ -10,14 +10,24 @@ int qlearning(int jeu, int nbEpisodes,double epsilon,double alpha, double gamma,
      entrainement :
      foreach episode : initialise s, 
      repeat foreach step
-     a <- chose action (s,Q)
+     a <- chose action (s,Q1+Q2)
      take action
      observe s', r
-     formule ...
+     formule sur Q1 ou Q2 (avec proba 0.5)
      s <- s'
      unitl s is terminal 
      */
-    
+
+    //creation de Q pour la recherche epsilon-greedy
+    float **Q = (float **)malloc(state_size * sizeof(float*));
+        for(int i = 0; i < state_size; i++) Q[i] = (float *)malloc(action_size * sizeof(float));
+    // Initialisation de Q à 0 partout
+    for(int i = 0; i < state_size; i++){
+        for(int j = 0; j < action_size; j++){
+            Q[i][j] = 0;
+        } 
+    }
+
     srand(time(NULL));
     
     for (int i = 0; i<= nbEpisodes;i++){
@@ -45,10 +55,12 @@ int qlearning(int jeu, int nbEpisodes,double epsilon,double alpha, double gamma,
                     printf("Position de départ : %d %d\n", state_row, state_col);
                 #endif              
                 
+                
                 // On lance l'épisode de l'algorithme
                 int s_terminal = 0;
                 while (s_terminal==0) {
                     int s = state_row * cols + state_col; 
+
                     action a = eps_greedy(action_size, epsilon, Q, s);
                     #ifdef DEBUG
                         printf("Action choisie : %d\n", a);
@@ -56,7 +68,14 @@ int qlearning(int jeu, int nbEpisodes,double epsilon,double alpha, double gamma,
 
                     envOutput stepOut = mazeEnv_step(a); // effectue le déplacement dans le labyrinth et renvoie le nouvel état, la récompense et si l'état est terminal
                     int s_next = stepOut.new_row * cols + stepOut.new_col;
-                    Q[s][a] = Q[s][a] + alpha * (stepOut.reward + gamma * maxVal(Q[s_next], action_size) - Q[s][a]);
+                    if ((double)rand() / (double)RAND_MAX < 0.5) {
+                    Q1[s][a] = Q1[s][a] + alpha * (stepOut.reward + gamma * Q2[s_next][maxInd(Q1[s_next], action_size)] - Q1[s][a]);
+                    }
+                    else {
+                    Q2[s][a] = Q2[s][a] + alpha * (stepOut.reward + gamma * Q1[s_next][maxInd(Q2[s_next], action_size)] - Q2[s][a]);
+                    }
+                    
+                    Q[s][a] = Q1[s][a] + Q2[s][a];
                     state_col = stepOut.new_col;
                     state_row = stepOut.new_row;
                     s_terminal = stepOut.done;
@@ -65,62 +84,8 @@ int qlearning(int jeu, int nbEpisodes,double epsilon,double alpha, double gamma,
 
             // ################ Morpion ################
             case 2:
-                
-                // On choisi un état de départ au hasard
-                ;
-                int s = 0;
-                //int k = 0;
-                int won = 0;
-                init_plateau();
-                
-                while(!a_gagne(joueur_courant) && nb_coups < 8) {
-                    int a = eps_greedy(action_size, epsilon, Q, s);
-                    #ifdef DEBUG
-                        printf("Action choisie : %d\n", a);
-                    #endif
-
-                    int deja_joue = jouer_coup(a); // 1 si le coup a déjà été joué, 0 sinon (cette fonction joue le coup si il est valide)
-
-                    // Si le coup était invalide, on baisse la récompense associée à cette action
-                    if(deja_joue) {
-                        Q[s][a] = -1000000000;
-                        continue;
-                    }
-
-
-                    // On récupère le state lié au plateau actuel (après avoir joué le coup) -> cf fonctions board_to_state et search_state
-                    //int state_board[9];
-                    //board_to_state(state_board);
-                    int s_next;
-                    //s_next = search_state(state_size, state_board);
-                    s_next = board_to_state();
-
-                    if(a_gagne(PLAYER1)) {
-                        won = 1;
-                    } 
-                    else {
-                        // Joue un coup au hasard pour le joueur 2;
-                        int a2 = rand() %9;
-                        while(jouer_coup(a2)) {
-                            a2 = rand() %9;
-                        }
-
-                        if(a_gagne(PLAYER2)) {
-                            won = -100;
-                        }
-                    }
-
-                    
-                    // On met à jour la Q-table : Si l'action "a" a mené à la victoire, on augmente la récompense associée à cette action
-                    // Si elle a mené à la défaite au coup au hasard suivant, on diminue la récompense associée à cette action.
-                    Q[s][a] = Q[s][a] + alpha * (10+100 * won + gamma * maxVal(Q[s_next], action_size) - Q[s][a]);
-
-                    // Met à jour l'état après que le 2e joueur a joué
-                    s = board_to_state();
-                    //s = search_state(state_size, state_board);
-                }
-                
-                break;
+            ;
+            break;
 
             case 3 : //trading
 
@@ -135,6 +100,7 @@ int qlearning(int jeu, int nbEpisodes,double epsilon,double alpha, double gamma,
                 int i = 0;
                 while (done == 0 && i < 50){
                     //i++;
+
                     int a = eps_greedy(action_size, epsilon, Q, prix_acquisition);
                     
                     //on ne peut acheter qu'un titre financier (version simple)
@@ -154,9 +120,16 @@ int qlearning(int jeu, int nbEpisodes,double epsilon,double alpha, double gamma,
                     
                     //1er chiffre de indice = stock et 2eme chiffre = acquisition
                     int indice = 10*stock_price + prix_acquisition;
-                    int indice_next = 10*(stock_price + fluctu) + s_next;
-                    Q[indice][a] = Q[indice][a] + alpha * (stepOut.reward + gamma * maxVal(Q[indice_next], action_size) - Q[indice][a]);
-                           
+                    int indice_next = 10*(stock_price + fluctu) + s_next;                   
+                    if ((double)rand() / (double)RAND_MAX < 0.5) {
+                    Q1[indice][a] = Q1[indice][a] + alpha * (stepOut.reward + gamma * Q2[indice_next][maxInd(Q1[indice_next], action_size)] - Q1[indice][a]);
+                    }
+                    else {
+                    Q2[indice][a] = Q2[indice][a] + alpha * (stepOut.reward + gamma * Q1[indice_next][maxInd(Q2[indice_next], action_size)] - Q2[indice][a]);
+                    } 
+
+                    Q[indice][a] = Q1[indice][a] + Q2[indice][a];
+
                     stock_price = stock_price + fluctu; 
                     prix_acquisition = s_next;
                     done = stepOut.done;
@@ -174,5 +147,4 @@ int qlearning(int jeu, int nbEpisodes,double epsilon,double alpha, double gamma,
     }
 
     return 1;
-
 }

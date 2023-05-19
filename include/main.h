@@ -3,7 +3,7 @@
 #include <time.h>
 #include <qlearning.h>
 #include <resolveMaze.h>
-
+#include <doubleqlearning.h>
 #include <sarsa.h>
 
 

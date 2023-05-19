@@ -6,7 +6,7 @@ int main(int argc, char *argv[]){
 
     // Verification des arguments.
     if(argc < 7){
-        printf("Utilisation: %s <numéro algo> <nombre d'épisodes> <epsilon> <alpha> <gamma> <jeu>\n", argv[0]);
+        printf("Utilisation: %s <numero algo> <nombre d'episodes> <epsilon> <alpha> <gamma> <jeu>\n", argv[0]);
         exit(1);
     }
     #ifdef DEBUG
@@ -88,11 +88,14 @@ int main(int argc, char *argv[]){
                 printf("L'algorithme 2 n'est pas implémenté pour ce jeu\n");
             }           
             break;
-        // case 3:
-        //     algo3(nbEpisodes, eps, alpha, gamma, Q, state_size, action_size);
-        //     break;
+        case 3:
+            if(!doubleqlearning(jeu,nbEpisodes, eps, alpha, gamma, Q, Q, state_size, action_size)) {
+                printf("Erreur dans l'algorithme 3\n");
+                exit(1);
+            }
+            break;
         default:
-            printf("Algorithme inconnu\n");
+            printf("Algorithme inconnu : %d\n",algo);
             exit(1);
     }
 
