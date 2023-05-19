@@ -40,7 +40,7 @@ puis ./main <numéro algo> <nombre d'épisodes> \<epsilon\> \<alpha\> \<gamma\> 
 * \<jeu\>  = 3 pour faire du trading \
 Puis les paramètres à utiliser (éventuellement ajouter l'argument "debug" pour afficher la matrice Q ainsi que des étapes intermédiaires de l'algorithme). 
 
-Ces paramètres fonctionnent bien pour les deux algorithmes : 
+Ces paramètres fonctionnent bien pour les trois algorithmes : 
 * \<epsilon\> = 0.3
 * \<alpha\> = 0.1
 * \<gamma\> = 0.9
