@@ -10,15 +10,13 @@ int max(int a, int b){
 
 int maxInd(float* Q, int nbActions) {
     int maxi = 0;
+    int random = rand() % 9;
     for (int i = 1; i < nbActions; i++) {
         if (Q[i] > Q[maxi]) {
             maxi = i;
         }
-        if(Q[i] == Q[maxi]){
-            int random = rand() % 2;
-            if(random == 1){
-                maxi = i;
-            }
+        else if(i < random && Q[i] == Q[maxi]){
+            maxi = i;
         }
     }
     return maxi;

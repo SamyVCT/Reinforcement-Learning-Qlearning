@@ -140,7 +140,7 @@ int play_Morpion(float** Q, int state_size, int action_size) {
         // On récupère l'action à jouer et on la joue
         int a;
         a = maxInd(Q[state_index], action_size);
-
+        printf("Valeurs de Q : %f %f %f %f %f %f %f %f %f\n", Q[state_index][0], Q[state_index][1], Q[state_index][2], Q[state_index][3], Q[state_index][4], Q[state_index][5], Q[state_index][6], Q[state_index][7], Q[state_index][8]);
         jouer_coup(a);
 
 
