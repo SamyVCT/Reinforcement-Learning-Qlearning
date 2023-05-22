@@ -129,7 +129,7 @@ envOutput mazeEnv_step(action a){
     // si on est sur un mur
     if (mazeEnv[state_row][state_col] == '+'){
         reward = -100;
-
+        // reward = 0; pour double qlearning sinon pb de convergence : minimum local.
         // Remettre la position à l'ancienne position
         state_row = old_row;
         state_col = old_col;
