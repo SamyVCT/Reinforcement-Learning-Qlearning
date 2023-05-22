@@ -42,7 +42,6 @@ int doubleqlearning(int jeu, int nbEpisodes,double epsilon,double alpha, double 
 
             // ################ Labyrinthe ################
             case 1: 
-                //mazeEnv_reset(); 
 
                 // On choisit une position de départ au hasard
 
@@ -94,8 +93,9 @@ int doubleqlearning(int jeu, int nbEpisodes,double epsilon,double alpha, double 
 
             // ################ Morpion ################
             case 2:
-            ;
-            break;
+                printf("Le jeu du morpion n'est pas encore implémenté\n");
+                return 1;
+                break;
 
             case 3 : //trading
 

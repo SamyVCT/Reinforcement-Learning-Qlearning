@@ -8,18 +8,15 @@ int max(int a, int b){
     return (a>b) ? a : b;
 }
 
-// Prend un tableau Q de taille nbActions en entrée et renvoie l'indice de la plus grande valeur
 int maxInd(float* Q, int nbActions) {
     int maxi = 0;
+    int random = rand() % 9;
     for (int i = 1; i < nbActions; i++) {
         if (Q[i] > Q[maxi]) {
             maxi = i;
         }
-        if(Q[i] == Q[maxi]){
-            int random = rand() % 2;
-            if(random == 1){
-                maxi = i;
-            }
+        else if(i < random && Q[i] == Q[maxi]){
+            maxi = i;
         }
     }
     return maxi;
@@ -51,8 +48,8 @@ action eps_greedy(int nbActions, float eps, float** Q, int state){
 }
 
 // libère la mémoire de la matrice Q de "state_size" lignes.
-int free_memory(int state_size, void** Q) {
-    for (int i = 0; i < state_size; i++) {
+int free_memory(int lines, void** Q) {
+    for (int i = 0; i < lines; i++) {
         free(Q[i]);
     }
     free(Q);

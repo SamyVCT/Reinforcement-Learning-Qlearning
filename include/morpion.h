@@ -1,3 +1,6 @@
+#ifndef MORPION_H
+#define MORPION_H
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <functions.h>
@@ -35,3 +38,5 @@ int board_to_state();
 // Permet au joueur de jouer contre l'ordinateur
 // OUTPUT : 0
 int play_Morpion(float** Q, int state_size, int action_size);
+
+#endif

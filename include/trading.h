@@ -1,4 +1,5 @@
-
+#ifndef TRADING_H
+#define TRADING_H
 #include <stdio.h>
 #include <stdlib.h>
 #include <functions.h>
@@ -26,3 +27,5 @@ typedef struct tradeOutput tradeOutput;
 tradeOutput trading_step(trade_action a, int prix_acquisition, int prix_acquisition_old, int nb_titres, int stock_price);
 
 void render_trading(float** Q);
+
+#endif
