@@ -1,5 +1,5 @@
 #include <doubleqlearning.h>
-
+#include <trading.h>
 
 int doubleqlearning(int jeu, int nbEpisodes,double epsilon,double alpha, double gamma, float **Q1, float **Q2, int state_size, int action_size){    
     
@@ -18,27 +18,33 @@ int doubleqlearning(int jeu, int nbEpisodes,double epsilon,double alpha, double 
      unitl s is terminal 
      */
 
-    //creation de Q pour la recherche epsilon-greedy
-    float **Q = (float **)malloc(state_size * sizeof(float*));
-        for(int i = 0; i < state_size; i++) Q[i] = (float *)malloc(action_size * sizeof(float));
-    // Initialisation de Q à 0 partout
-    for(int i = 0; i < state_size; i++){
-        for(int j = 0; j < action_size; j++){
-            Q[i][j] = 0;
-        } 
-    }
+    
+        //creation de Q pour la recherche epsilon-greedy
+        float **Q = (float **)malloc(state_size * sizeof(float*));
+            for(int i = 0; i < state_size; i++) Q[i] = (float *)malloc(action_size * sizeof(float));
+        if (Q == NULL){
+            printf("Erreur d'allocation mémoire");
+            exit(1);
+        }
+         // Initialisation de Q à 0 partout
+        for(int i = 0; i < state_size; i++){
+            for(int j = 0; j < action_size; j++){
+                Q[i][j] = 0;
+            } 
+        }
 
     srand(time(NULL));
     
     for (int i = 0; i<= nbEpisodes;i++){
 
+       
         switch(jeu) {
 
             // ################ Labyrinthe ################
             case 1: 
                 //mazeEnv_reset(); 
 
-                // On choisi une position de départ au hasard
+                // On choisit une position de départ au hasard
 
                 state_col = rand() % cols;
                 state_row = rand() % rows;
@@ -58,6 +64,7 @@ int doubleqlearning(int jeu, int nbEpisodes,double epsilon,double alpha, double 
                 
                 // On lance l'épisode de l'algorithme
                 int s_terminal = 0;
+                printf("ok");
                 while (s_terminal==0) {
                     int s = state_row * cols + state_col; 
 
@@ -68,11 +75,14 @@ int doubleqlearning(int jeu, int nbEpisodes,double epsilon,double alpha, double 
 
                     envOutput stepOut = mazeEnv_step(a); // effectue le déplacement dans le labyrinth et renvoie le nouvel état, la récompense et si l'état est terminal
                     int s_next = stepOut.new_row * cols + stepOut.new_col;
-                    if ((double)rand() / (double)RAND_MAX < 0.5) {
-                    Q1[s][a] = Q1[s][a] + alpha * (stepOut.reward + gamma * Q2[s_next][maxInd(Q1[s_next], action_size)] - Q1[s][a]);
+                    int a2;
+                    if (rand() % 2 < 0.5) {
+                         a2 = maxInd(Q1[s_next], action_size);
+                    Q1[s][a] = Q1[s][a] + alpha * (stepOut.reward + gamma * Q2[s_next][a2] - Q1[s][a]);
                     }
                     else {
-                    Q2[s][a] = Q2[s][a] + alpha * (stepOut.reward + gamma * Q1[s_next][maxInd(Q2[s_next], action_size)] - Q2[s][a]);
+                         a2 = maxInd(Q2[s_next], action_size);
+                    Q2[s][a] = Q2[s][a] + alpha * (stepOut.reward + gamma * Q1[s_next][a2] - Q2[s][a]);
                     }
                     
                     Q[s][a] = Q1[s][a] + Q2[s][a];
@@ -145,6 +155,9 @@ int doubleqlearning(int jeu, int nbEpisodes,double epsilon,double alpha, double 
         }
 
     }
+    
+    free_memory(state_size, (void**)Q);
 
+    
     return 1;
 }

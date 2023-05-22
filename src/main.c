@@ -62,8 +62,20 @@ int main(int argc, char *argv[]){
         } 
     }
 
+    // Allocation de la matrice Q2 pour Double Q-learning.
+    // On met les états sur les lignes et les actions possibles sur les colonnes
+    float **Q2 = (float **)malloc(state_size * sizeof(float*));
+    for(int i = 0; i < state_size; i++) Q2[i] = (float *)malloc(action_size * sizeof(float));
+
+    // Initialisation de Q2 à 0 partout
+    for(int i = 0; i < state_size; i++){
+        for(int j = 0; j < action_size; j++){
+            Q2[i][j] = 0.0;
+        } 
+    }
+
     // On vérifie que l'allocation mémoire a bien fonctionné
-    if (Q == NULL){
+    if (Q == NULL || Q2 == NULL){
         printf("Erreur d'allocation mémoire");
         exit(1);
     }
@@ -89,10 +101,11 @@ int main(int argc, char *argv[]){
             }           
             break;
         case 3:
-            if(!doubleqlearning(jeu,nbEpisodes, eps, alpha, gamma, Q, Q, state_size, action_size)) {
+            if(!doubleqlearning(jeu,nbEpisodes, eps, alpha, gamma, Q, Q2, state_size, action_size)) {
                 printf("Erreur dans l'algorithme 3\n");
                 exit(1);
             }
+
             break;
         default:
             printf("Algorithme inconnu : %d\n",algo);
@@ -145,6 +158,8 @@ int main(int argc, char *argv[]){
     }    
 
     free_memory(state_size, (void**)Q);
+    free_memory(state_size, (void**)Q2);
+
 
     return 0;
 }
