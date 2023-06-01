@@ -42,4 +42,6 @@ action eps_greedy(int nbActions, float eps, float** Q, int state);
  */
 int free_memory(int lines, void** Q);
 
+void print_Q(float **Q, int lignes, int colonnes);
+
 #endif

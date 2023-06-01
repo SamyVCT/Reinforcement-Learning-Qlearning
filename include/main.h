@@ -7,6 +7,7 @@
 #include <resolveMaze.h>
 #include <doubleqlearning.h>
 #include <sarsa.h>
+#include <functions.h>
 
 
 // Mettre en commentaire si on ne veut pas afficher le débuggage.

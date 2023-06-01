@@ -62,7 +62,7 @@ tradeOutput trading_step(trade_action a, int prix_acquisition ,int prix_acquisit
     return stepOut;
 }
 
-void render_trading(float** Q){
+float render_trading(float** Q){
     //on part d'un état initial, puis on lit le fichier jour par jour et l'algo décide
     // de l'action à réaliser grâce aux valeurs de Q
     int jour = 0;
@@ -82,7 +82,7 @@ void render_trading(float** Q){
     int maxi = 7570;
     int delta = (maxi - mini) /10; // pour séparer en 10 intervalles
     int argent_tot = -(mini + delta*prix_acquisition);
-    printf("Jour 0 \n  Argent : %d\n", argent_tot);
+    //printf("Jour 0 \n  Argent : %d\n", argent_tot);
     while(1) {
         fscanf(fp,"%d\n", &real_stock_price);
         jour++;
@@ -108,24 +108,24 @@ void render_trading(float** Q){
         }
 
         if (a==0 && change==1){
-            char* action = "vendre";
+            //char* action = "vendre";
             nb_titres = 0;
             prix_acquisition = indice_stock_price;
             argent_tot = argent_tot + (mini+delta*prix_acquisition);
-            printf("Jour %d \n Prix du stock (indice) : %d, Prix du stock (réel) : %d, Action : %s, Argent : %d\n", jour, indice_stock_price, real_stock_price, action, argent_tot);
+            //printf("Jour %d \n Prix du stock (indice) : %d, Prix du stock (réel) : %d, Action : %s, Argent : %d\n", jour, indice_stock_price, real_stock_price, action, argent_tot);
 
         }
         else if (a==1 && change==1){
-            char* action = "acheter";
+            //char* action = "acheter";
             nb_titres = 1;
             prix_acquisition = indice_stock_price;
             argent_tot = argent_tot - (mini+delta*prix_acquisition);
-            printf("Jour %d \n Prix du stock (indice) : %d, Prix du stock (réel) : %d, Action : %s, Argent : %d\n", jour, indice_stock_price, real_stock_price,action, argent_tot);
+            //printf("Jour %d \n Prix du stock (indice) : %d, Prix du stock (réel) : %d, Action : %s, Argent : %d\n", jour, indice_stock_price, real_stock_price,action, argent_tot);
 
         }
 
     }
     fclose(fp);
 
-
+    return argent_tot;
 }

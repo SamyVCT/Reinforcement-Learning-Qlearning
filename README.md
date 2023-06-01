@@ -46,3 +46,10 @@ Ces paramètres fonctionnent bien pour les trois algorithmes :
 * \<gamma\> = 0.9
 
 D'après nos observations, l'algorithme SARSA a besoin de plus d'épisodes pour converger : n'hésitez pas à augmenter la valeur si le labyrinthe n'est pas résolu.
+
+INFO : 
+Argent gagne au final sur 1000 entrainements avec l'algo 1 (qlearning) : 580356
+Moyenne par entrainement : 580
+
+Argent gagne au final sur 1000 entrainements avec l'algo 3 (double qlearning) : 802572
+Moyenne par entrainement : 802

@@ -55,3 +55,13 @@ int free_memory(int lines, void** Q) {
     free(Q);
     return 0;
 }
+
+void print_Q(float** Q, int lignes, int colonnes){
+    for(int i = 0; i < lignes; i++){
+            printf("\x1b[33mEtat %d : \x1b[m", i);
+            for(int j = 0; j < colonnes; j++){
+                printf("%f ", Q[i][j]);
+            }
+            printf("\n");
+        }
+}

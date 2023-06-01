@@ -33,6 +33,6 @@ tradeOutput trading_step(trade_action a, int prix_acquisition, int prix_acquisit
  * OUTPUT : void
  * DESCRIPTION : Fonction qui affiche les étapes de trading par jour
  */
-void render_trading(float** Q);
+float render_trading(float** Q);
 
 #endif

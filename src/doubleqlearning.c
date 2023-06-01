@@ -63,7 +63,6 @@ int doubleqlearning(int jeu, int nbEpisodes,double epsilon,double alpha, double 
                 
                 // On lance l'épisode de l'algorithme
                 int s_terminal = 0;
-                printf("ok");
                 while (s_terminal==0) {
                     int s = state_row * cols + state_col; 
 
@@ -76,12 +75,12 @@ int doubleqlearning(int jeu, int nbEpisodes,double epsilon,double alpha, double 
                     int s_next = stepOut.new_row * cols + stepOut.new_col;
                     int a2;
                     if (rand() % 2 < 0.5) {
-                         a2 = maxInd(Q1[s_next], action_size);
-                    Q1[s][a] = Q1[s][a] + alpha * (stepOut.reward + gamma * Q2[s_next][a2] - Q1[s][a]);
+                        a2 = maxInd(Q1[s_next], action_size);
+                        Q1[s][a] = Q1[s][a] + alpha * (stepOut.reward + gamma * Q2[s_next][a2] - Q1[s][a]);
                     }
                     else {
-                         a2 = maxInd(Q2[s_next], action_size);
-                    Q2[s][a] = Q2[s][a] + alpha * (stepOut.reward + gamma * Q1[s_next][a2] - Q2[s][a]);
+                        a2 = maxInd(Q2[s_next], action_size);
+                        Q2[s][a] = Q2[s][a] + alpha * (stepOut.reward + gamma * Q1[s_next][a2] - Q2[s][a]);
                     }
                     
                     Q[s][a] = Q1[s][a] + Q2[s][a];

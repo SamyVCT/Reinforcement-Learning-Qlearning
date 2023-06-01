@@ -117,14 +117,8 @@ int main(int argc, char *argv[]){
         
 
         // affichage de la matrice Q
-
-        for(int i = 0; i < state_size; i++){
-            printf("\x1b[33mEtat %d : \x1b[m", i);
-            for(int j = 0; j < action_size; j++){
-                printf("%f ", Q[i][j]);
-            }
-            printf("\n");
-        }
+        //print_Q(Q, state_size, action_size);
+        
 
         // On affiche le temps d'exécution
         double time_spent = (double)(end - start) / CLOCKS_PER_SEC;
@@ -153,8 +147,58 @@ int main(int argc, char *argv[]){
             break;
     
         case 3:
-            render_trading(Q);
-            break;
+        ;
+            int n = 0;
+            int argent = 0;
+            printf("Combien d'entrainements?\n");
+            scanf("%d", &n);
+            for (int k = 0; k<n; k++){            
+                argent = argent + render_trading(Q);
+                //printf("k = %d\n",k);
+
+                for(int i = 0; i < state_size; i++){
+                    for(int j = 0; j < action_size; j++){
+                        Q[i][j] = 0;
+                        Q2[i][j] = 0;
+                    } 
+                }
+
+                switch(algo){
+                    case 1:
+                        if(!qlearning(jeu,nbEpisodes, eps, alpha, gamma, Q, state_size, action_size)) {
+                            printf("Erreur dans l'algorithme 1\n");
+                            exit(1);
+                        }
+                        break;
+                    case 2:
+                        if(jeu == 1) {
+                            if(!sarsa(nbEpisodes, eps, alpha, gamma, Q, state_size, action_size)) {
+                            printf("Erreur dans l'algorithme 2\n");
+                            exit(1);
+                            }
+                        } else {
+                            printf("L'algorithme 2 n'est pas implémenté pour ce jeu\n");
+                        }           
+                        break;
+                    case 3:
+                        if(!doubleqlearning(jeu,nbEpisodes, eps, alpha, gamma, Q, Q2, state_size, action_size)) {
+                            printf("Erreur dans l'algorithme 3\n");
+                            exit(1);
+                        }
+
+                        break;
+                    default:
+                        printf("Algorithme inconnu : %d\n",algo);
+                        exit(1);
+                } 
+                
+                //print_Q(Q, state_size, action_size);
+
+            }
+
+            printf("Argent gagne au final sur %d entrainements avec l'algo %d : %d\nMoyenne par entrainement : %d \n",n,algo,argent, argent/n);
+
+        break;
     }    
 
     free_memory(state_size, (void**)Q);
