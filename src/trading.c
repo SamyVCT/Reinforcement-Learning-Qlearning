@@ -43,7 +43,7 @@ tradeOutput trading_step(trade_action a, int prix_acquisition ,int prix_acquisit
     if ((a==0 && stock_price==9 && prix_acquisition_old != 9) || (a==1 && stock_price==0)){
         prix_acquisition_old = prix_acquisition;
         prix_acquisition = stock_price;
-        reward = 200;
+        reward = 500;
         if(a==0) {
             nb_titres = 0;
         }
